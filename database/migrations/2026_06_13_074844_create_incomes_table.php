@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->enum('type', ['Salary', 'allowance', 'Freelance', 'Bonus', 'Investment', 'Other']);
             $table->decimal('amount');
+            $table->string('image')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });
