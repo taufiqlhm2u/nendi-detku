@@ -4,8 +4,8 @@
 
             <!-- Background blobs -->
             <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px] animate-pulse"></div>
-                <div class="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-secondary/10 rounded-full blur-[120px] animate-pulse"
+                <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px] animate-pulse"></div>
+                <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-secondary/10 rounded-full blur-[120px] animate-pulse"
                     style="animation-delay: 2s"></div>
             </div>
 
@@ -14,7 +14,7 @@
                 <div class="relative group">
                     <div class="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110 group-hover:scale-125 transition-transform duration-700 animate-pulse-soft"></div>
                     <div class="avatar placeholder relative z-10">
-                        <div class="w-24 sm:w-32 rounded-full bg-primary text-primary-content ring ring-white/10 ring-offset-0 flex items-center justify-center overflow-hidden">
+                        <div class="w-24 sm:w-32 rounded-full ring ring-white/10 ring-offset-0 flex items-center justify-center overflow-hidden">
                             <img src="{{ asset('images/logo.png') }}" alt="Nendi Detku Logo" class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -38,7 +38,7 @@
 
             <!-- Footer -->
             <footer class="absolute bottom-8 opacity-40">
-                <p class="text-xs font-semibold tracking-widest">v1.0.4 Premium Experience</p>
+                <p class="text-xs font-semibold tracking-widest">v1.0.1 Premium Experience</p>
             </footer>
         </main>
     </div>

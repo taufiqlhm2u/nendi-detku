@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout>
     <div class="bg-base-100 text-base-content min-h-screen flex flex-col items-center justify-center p-4">
         <!-- Top glow -->
         <div
@@ -25,7 +25,7 @@
                 <div class="card-body gap-5">
                     <h2 class="card-title text-xl font-bold">Masuk ke Akun</h2>
 
-                    <form method="POST" action="{{ route('login') }}" class="flex flex-col gap-4">
+                    <form method="POST" action="{{ route('login.verif') }}" class="flex flex-col gap-4">
                         @csrf
 
                         <!-- Email -->
@@ -34,15 +34,13 @@
                                 <span
                                     class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
                             </label>
-                            <div>
                                 <input
                                     class="input input-bordered w-full focus:input-primary @error('email') input-error @enderror"
                                     id="email" name="email" type="email" placeholder="nama@email.com"
-                                    value="{{ old('email') }}" required autofocus />
+                                    value="{{ old('email') }}" autofocus />
                                 @error('email')
                                     <p class="text-xs text-error mt-1">{{ $message }}</p>
                                 @enderror
-                            </div>
                         </div>
 
                         <!-- Password dengan toggle mata di dalam input -->
@@ -55,7 +53,7 @@
                             <div class="relative">
                                 <input
                                     class="input input-bordered w-full focus:input-primary pr-10 @error('password') input-error @enderror"
-                                    id="password" name="password" type="password" placeholder="••••••••" required />
+                                    id="password" name="password" type="password" placeholder="••••••••" />
                                 <button type="button" id="toggle-pass"
                                     class="absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors">
                                     <svg id="eye-icon" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
@@ -120,4 +118,4 @@
             });
         </script>
     </div>
-</x-layout.app>
+</x-layout>

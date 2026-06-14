@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout>
     <div class="bg-base-100 text-base-content min-h-screen flex items-center justify-center p-4">
 
         <!-- Decorative blobs -->
@@ -178,4 +178,4 @@
             });
         </script>
     </div>
-</x-layout.app>
+</x-layout>

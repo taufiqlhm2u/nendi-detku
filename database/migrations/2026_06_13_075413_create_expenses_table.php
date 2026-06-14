@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->enum('type', [ 'Shopping', 'Snacks', 'Personal Needs', 'Transportation', 'Savings', 'Bills', 'Other']);
-            $table->decimal('amount');
+            $table->decimal('amount', 15, 2);
             $table->string('image')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
