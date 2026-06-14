@@ -1,9 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@plugin "daisyui" {
+  themes: light --default;
+}
+
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --color-primary: #005BAC;
+    --color-primary-dark: #003B73;
+    --color-accent: #FFD34D;
+    --color-accent-light: #FFE082;
+    --color-white: #FFFFFF;
+    --color-text: #1F2937;
+}
+
+.bg-primary {
+    background-color: var(--color-primary);
+}
+
+.bg-primary-dark {
+    background-color: var(--color-primary-dark);
+}
+
+.bg-accent {
+    background-color: var(--color-accent);
+}
+
+.bg-accent-light {
+    background-color: var(--color-accent-light);
+}
+
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-primary-dark {
+    color: var(--color-primary-dark);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+.text-default {
+    color: var(--color-text);
+}
+
+.border-primary {
+    border-color: var(--color-primary);
+}
+
+.border-accent {
+    border-color: var(--color-accent);
+}
+
+/* Material Icons Font Style */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Input Icon Wrap */
+.input-icon-wrap {
+  position: relative;
+}
+.input-icon-wrap .icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #727783;
+  pointer-events: none;
+  font-size: 20px;
+}
+.input-icon-wrap input {
+  padding-left: 44px;
+}
+.input-icon-wrap .icon-right {
+  left: auto;
+  right: 14px;
+  pointer-events: auto;
+  cursor: pointer;
+  color: #727783;
 }
