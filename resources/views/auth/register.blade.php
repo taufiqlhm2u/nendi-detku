@@ -28,24 +28,20 @@
                     </div>
 
                     <!-- Form Register - Siap untuk Laravel -->
-                    <form method="POST" action="{{ route('register') }}" class="flex flex-col gap-4">
+                    <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-4">
                         @csrf
 
                         <!-- Nama Lengkap -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="name">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Nama Lengkap</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Nama
+                                    Lengkap</span>
                             </label>
-                            <input 
-                                class="input input-bordered w-full focus:input-primary @error('name') input-error @enderror" 
-                                id="name" 
-                                name="name"
-                                type="text" 
-                                placeholder="John Doe" 
-                                value="{{ old('name') }}"
-                                required 
-                                autofocus
-                            />
+                            <input
+                                class="input input-bordered w-full focus:input-primary @error('name') input-error @enderror"
+                                id="name" name="name" type="text" placeholder="John Doe"
+                                value="{{ old('name') }}" autofocus />
                             @error('name')
                                 <p class="text-xs text-error mt-1">{{ $message }}</p>
                             @enderror
@@ -54,17 +50,13 @@
                         <!-- Email -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="email">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
                             </label>
-                            <input 
-                                class="input input-bordered w-full focus:input-primary @error('email') input-error @enderror" 
-                                id="email" 
-                                name="email"
-                                type="email" 
-                                placeholder="nama@email.com" 
-                                value="{{ old('email') }}"
-                                required 
-                            />
+                            <input
+                                class="input input-bordered w-full focus:input-primary @error('email') input-error @enderror"
+                                id="email" name="email" type="email" placeholder="nama@email.com"
+                                value="{{ old('email') }}" />
                             @error('email')
                                 <p class="text-xs text-error mt-1">{{ $message }}</p>
                             @enderror
@@ -73,28 +65,27 @@
                         <!-- Password dengan icon mata -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Password</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Password</span>
                             </label>
                             <div class="relative">
-                                <input 
-                                    class="input input-bordered w-full focus:input-primary pr-10 @error('password') input-error @enderror" 
-                                    id="password" 
-                                    name="password"
-                                    type="password" 
-                                    placeholder="••••••••" 
-                                    required 
-                                />
-                                <button 
-                                    type="button" 
+                                <input
+                                    class="input input-bordered w-full focus:input-primary pr-10 @error('password') input-error @enderror"
+                                    id="password" name="password" type="password" placeholder="••••••••" />
+                                <button type="button"
                                     class="toggle-password absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors"
-                                    data-target="password"
-                                >
-                                    <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    data-target="password">
+                                    <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                    <svg class="eye-slash-icon w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                    <svg class="eye-slash-icon w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
                                     </svg>
                                 </button>
                             </div>
@@ -106,31 +97,34 @@
                         <!-- Konfirmasi Password dengan icon mata -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password_confirmation">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Konfirmasi Password</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Konfirmasi
+                                    Password</span>
                             </label>
                             <div class="relative">
-                                <input 
-                                    class="input input-bordered w-full focus:input-primary pr-10" 
-                                    id="password_confirmation" 
-                                    name="password_confirmation"
-                                    type="password" 
-                                    placeholder="••••••••" 
-                                    required 
-                                />
-                                <button 
-                                    type="button" 
+                                <input class="input input-bordered w-full focus:input-primary pr-10 @error('password_confirmation') input-error @enderror"
+                                    id="password_confirmation" name="password_confirmation" type="password"
+                                    placeholder="••••••••" />
+                                <button type="button"
                                     class="toggle-password absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors"
-                                    data-target="password_confirmation"
-                                >
-                                    <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    data-target="password_confirmation">
+                                    <svg class="eye-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                    <svg class="eye-slash-icon w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                    <svg class="eye-slash-icon w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
                                     </svg>
                                 </button>
                             </div>
+                            @error('password_confirmation')
+                                <p class="text-xs text-error mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Terms -->
@@ -147,7 +141,7 @@
 
                     <!-- Login link -->
                     <div class="divider my-0"></div>
-                    <p class="text-center text-sm text-base-content/60">
+                    <p class="text-center text-sm text-base-content/60 mt-[-10px]">
                         Sudah punya akun?
                         <a class="link link-primary font-bold ml-1" href="{{ route('login') }}">Masuk</a>
                     </p>
@@ -164,7 +158,7 @@
                     const input = document.getElementById(targetId);
                     const eyeIcon = this.querySelector('.eye-icon');
                     const eyeSlashIcon = this.querySelector('.eye-slash-icon');
-                    
+
                     if (input.type === 'password') {
                         input.type = 'text';
                         eyeIcon.classList.add('hidden');
