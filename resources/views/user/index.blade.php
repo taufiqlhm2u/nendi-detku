@@ -24,7 +24,7 @@
                 <!-- Selection Options -->
                 <div class="space-y-3">
                     <!-- Pemasukan Option -->
-                    <a href="#"
+                    <a href="{{ route('incomes.create')}}"
                         class="block w-full p-4 bg-linear-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 rounded-xl transition-all duration-200 group border border-green-200">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
