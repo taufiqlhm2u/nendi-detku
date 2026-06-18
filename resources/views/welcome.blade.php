@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout>
     <div class="bg-base-100 text-base-content overflow-hidden min-h-screen">
         <main class="flex flex-col items-center justify-center min-h-screen w-full relative">
 
@@ -81,7 +81,7 @@
                         bar.parentElement.style.transition = 'opacity 0.5s';
                         // Redirect ke halaman login setelah loading selesai
                         setTimeout(() => {
-                            window.location.href = "{{ route('login') }}";
+                            window.location.href = "{{ route('beranda') }}";
                         }, 500);
                     }, 500);
                 }
@@ -97,4 +97,4 @@
             if (logo) logo.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
     </script>
-</x-layout.app>
+</x-layout>
