@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->enum('type', ['Salary', 'allowance', 'Freelance', 'Bonus', 'Investment', 'Other']);
+            $table->enum('type', ['salary', 'allowance', 'freelance', 'bonus', 'investment', 'other']);
             $table->decimal('amount', 15, 2);
+            $table->date('date');
             $table->string('image')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
