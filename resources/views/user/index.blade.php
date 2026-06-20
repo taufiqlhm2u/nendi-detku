@@ -24,14 +24,14 @@
                 <!-- Selection Options -->
                 <div class="space-y-3">
                     <!-- Pemasukan Option -->
-                    <a href="{{ route('incomes.create')}}"
+                    <a href="{{ route('incomes.create') }}"
                         class="block w-full p-4 bg-linear-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 rounded-xl transition-all duration-200 group border border-green-200">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div
                                     class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                                     </svg>
                                 </div>
@@ -50,7 +50,7 @@
                     </a>
 
                     <!-- Pengeluaran Option -->
-                    <a href="#"
+                    <a href="{{ route('expenses.create') }}"
                         class="block w-full p-4 bg-linear-to-r from-red-50 to-rose-50 hover:from-red-100 hover:to-rose-100 rounded-xl transition-all duration-200 group border border-red-200">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
