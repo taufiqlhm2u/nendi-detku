@@ -45,31 +45,40 @@ new class extends Component {
         $wallet = Wallet::where('user_id', $user->id)->first();
         $totalIncome = Income::where('user_id', $user->id)->sum('amount');
         $totalExpense = Expense::where('user_id', $user->id)->sum('amount');
-        $balance = $wallet ? (float) $wallet->balance : $totalIncome - $totalExpense;
+        $balance = $wallet ? (float) $wallet->balance : 0;
 
-        $incomes = Income::where('user_id', $user->id)->orderByDesc('created_at')->limit(10)->get()->map(
+        $incomes = Income::where('user_id', $user->id)->orderByDesc('date')->limit(10)->get()->map(
             fn($i) => [
                 'type_group' => 'income',
                 'type' => $i->type,
                 'amount' => $i->amount,
                 'note' => $i->note,
+                'date' => $i->date,
                 'created_at' => $i->created_at,
                 'config' => Income::getTypeConfig($i->type),
             ],
         );
 
-        $expenses = Expense::where('user_id', $user->id)->orderByDesc('created_at')->limit(10)->get()->map(
+        $expenses = Expense::where('user_id', $user->id)->orderByDesc('date')->limit(10)->get()->map(
             fn($e) => [
                 'type_group' => 'expense',
                 'type' => $e->type,
                 'amount' => $e->amount,
                 'note' => $e->note,
+                'date' => $e->date,
                 'created_at' => $e->created_at,
                 'config' => Expense::getTypeConfig($e->type),
             ],
         );
 
-        $transactions = $incomes->concat($expenses)->sortByDesc('created_at')->take(10)->values();
+        $transactions = $incomes
+            ->concat($expenses)
+            ->sortBy([
+                fn($a, $b) => $b['date'] <=> $a['date'], // 1. tanggal terbaru
+                fn($a, $b) => $b['created_at'] <=> $a['created_at'], // 2. data terbaru (jika tanggal sama)
+            ])
+            ->take(10)
+            ->values();
 
         return compact('balance', 'totalIncome', 'totalExpense', 'transactions', 'chartData');
     }
@@ -179,9 +188,9 @@ new class extends Component {
      */
     private function firstTransactionMonth(int $userId): Carbon
     {
-        $firstIncome = Income::where('user_id', $userId)->orderBy('created_at')->value('created_at');
+        $firstIncome = Income::where('user_id', $userId)->orderBy('date')->value('date');
 
-        $firstExpense = Expense::where('user_id', $userId)->orderBy('created_at')->value('created_at');
+        $firstExpense = Expense::where('user_id', $userId)->orderBy('date')->value('date');
 
         $dates = array_filter([$firstIncome, $firstExpense]);
 
@@ -405,7 +414,7 @@ new class extends Component {
                                     </p>
                                 @endif
                                 <p class="text-xs text-base-content/50 mt-0.5">
-                                    {{ $trx['created_at']->translatedFormat('d M, H:i') }}
+                                    {{ $trx['date']->translatedFormat('d M Y') }}
                                 </p>
                             </div>
                         </div>
