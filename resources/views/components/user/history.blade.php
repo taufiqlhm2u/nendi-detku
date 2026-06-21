@@ -193,7 +193,7 @@ new class extends Component {
                             {{-- Amount --}}
                             <div class="text-right flex items-center gap-1">
                                 @if ($tx['kind'] === 'income')
-                                    <p class="font-bold text-sm text-primary">
+                                    <p class="font-bold text-sm text-green-700">
                                         + Rp{{ number_format($tx['amount'], 0, ',', '.') }}
                                     </p>
                                 @else

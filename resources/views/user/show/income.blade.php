@@ -22,11 +22,11 @@
             <!-- Transaction Header Card -->
             <div class="card bg-white border border-base-300/40 shadow-sm text-center">
                 <div class="card-body gap-2 items-center">
-                    <div class="badge gap-1 py-3 px-3 bg-green-100 text-green-700 border-green-200 font-semibold">
+                    <div class="badge gap-1 py-3 px-3 bg-green-100 text-green-800 border-green-200 font-semibold">
                         <span class="material-symbols-outlined text-[14px]">trending_up</span>
                         Pemasukan
                     </div>
-                    <h2 class="text-2xl font-extrabold tracking-tight text-primary">+Rp {{ number_format($income->amount, 0, ',', '.') }}</h2>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-green-700">+Rp {{ number_format($income->amount, 0, ',', '.') }}</h2>
                     <p class="text-sm text-[#191c21]/50">{{ $config['label'] }}</p>
                 </div>
             </div>

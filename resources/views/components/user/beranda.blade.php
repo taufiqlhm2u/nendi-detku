@@ -231,19 +231,13 @@ new class extends Component {
                     {{-- Pemasukan --}}
                     <div
                         class="badge badge-outline gap-1.5 py-3 px-3 border-green-200 bg-green-50 text-green-700 font-semibold text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <span class="material-symbols-outlined text-[16px]">trending_up</span>
                         Rp {{ number_format($totalIncome, 0, ',', '.') }}
                     </div>
                     {{-- Pengeluaran --}}
                     <div
                         class="badge badge-outline gap-1.5 py-3 px-3 border-red-200 bg-red-50 text-red-700 font-semibold text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-                        </svg>
+                        <span class="material-symbols-outlined text-[16px]">trending_down</span>
                         Rp {{ number_format($totalExpense, 0, ',', '.') }}
                     </div>
                 </div>
@@ -381,11 +375,7 @@ new class extends Component {
                     </a>
                 @empty
                     <div class="text-center py-10 text-base-content/40">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 opacity-30" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
+                        <span class="material-symbols-outlined text-5xl mx-auto mb-3 opacity-30">assignment</span>
                         <p class="text-sm">Belum ada transaksi</p>
                     </div>
                 @endforelse
