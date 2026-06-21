@@ -56,6 +56,7 @@ new class extends Component {
                 'date' => $i->date,
                 'created_at' => $i->created_at,
                 'config' => Income::getTypeConfig($i->type),
+                'route' => route('incomes.show', $i->id)
             ],
         );
 
@@ -68,6 +69,7 @@ new class extends Component {
                 'date' => $e->date,
                 'created_at' => $e->created_at,
                 'config' => Expense::getTypeConfig($e->type),
+                'route' => route('expenses.show', $e->id)
             ],
         );
 
@@ -211,50 +213,7 @@ new class extends Component {
 --}}
 <div wire:poll.30s>
 
-    {{-- ===== Top App Bar ===== --}}
-    @php
-        $authUser = Auth::user();
-        $avatarUrl = $authUser->avatar ? Storage::url($authUser->avatar) : null;
-        // Ambil inisial: maks 2 huruf dari kata pertama & kedua nama
-        $nameParts = explode(' ', trim($authUser->name));
-        $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
-    @endphp
-    <header
-        class="w-full sticky top-0 z-50 bg-[#f9f9ff] border-b border-[#e1e2e9] flex justify-between items-center px-4 py-3 shadow-sm">
-        <div class="flex items-center gap-3">
-            @if ($avatarUrl)
-                <div class="avatar">
-                    <div class="w-10 h-10 rounded-full ring ring-primary ring-offset-1 overflow-hidden">
-                        <img alt="Foto Profil" src="{{ $avatarUrl }}"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        {{-- fallback inisial jika URL gagal dimuat --}}
-                        <div class="w-10 h-10 rounded-full ring ring-primary ring-offset-1 bg-primary text-white text-sm font-bold items-center justify-center"
-                            style="display:none">
-                            {{ $initials }}
-                        </div>
-                    </div>
-                </div>
-            @else
-                {{-- Tidak ada avatar: tampilkan inisial --}}
-                <div
-                    class="w-10 h-10 rounded-full ring ring-primary ring-offset-1 bg-primary text-white text-sm font-bold flex items-center justify-center shrink-0 select-none">
-                    {{ $initials }}
-                </div>
-            @endif
-            <div>
-                <p class="text-xs font-semibold text-primary tracking-wider uppercase">Halo,</p>
-                <h1 class="text-lg font-bold text-base-content leading-tight">{{ $authUser->name }}!</h1>
-            </div>
-        </div>
 
-        <button class="btn btn-ghost btn-circle text-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-        </button>
-    </header>
 
     {{-- ===== Main Content ===== --}}
     <main class="px-4 pt-5 space-y-6 max-w-2xl mx-auto pb-24">
@@ -372,8 +331,9 @@ new class extends Component {
         <section class="space-y-3">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold text-base-content">Transaksi Terakhir</h3>
-                <button class="text-[11px] font-semibold text-primary hover:text-primary/70 transition-colors">Lihat
-                    Semua →</button>
+                <a href="{{ route('history') }}"
+                    class="text-[11px] font-semibold text-primary hover:text-primary/70 transition-colors">Lihat
+                    Semua →</a>
             </div>
 
             <div class="space-y-2.5 relative">
@@ -385,7 +345,7 @@ new class extends Component {
 
                 @forelse ($transactions as $trx)
                     @php $cfg = $trx['config'] @endphp
-                    <div
+                    <a href="{{ $trx['route'] }}"
                         class="card bg-white border border-outline-variant hover:border-primary/40 transition-colors shadow-sm">
                         <div class="card-body p-4 flex-row items-center justify-between gap-3">
                             <div class="flex items-center gap-4">
@@ -418,7 +378,7 @@ new class extends Component {
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <div class="text-center py-10 text-base-content/40">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 opacity-30" fill="none"

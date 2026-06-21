@@ -10,11 +10,11 @@
         </a>
         
         <!-- Riwayat -->
-        <a href="/riwayat" class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('riwayat') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
+        <a href="{{route('history')}}" class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('history') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="text-xs {{ request()->routeIs('riwayat') ? 'font-semibold' : 'font-medium' }}">Riwayat</span>
+            <span class="text-xs {{ request()->routeIs('history') ? 'font-semibold' : 'font-medium' }}">Riwayat</span>
         </a>
         
         <!-- Statistik -->

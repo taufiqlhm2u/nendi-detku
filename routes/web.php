@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\BerandaController;
 use App\Http\Controllers\User\ExpenseController;
+use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\IncomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
 
     Route::resource('pemasukan', IncomeController::class)->names('incomes');
-    
+
     Route::resource('pengeluaran', ExpenseController::class)->names('expenses');
+
+    Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
 
     Route::post('/logout', [LoginController::class, 'logout'])
         ->name('logout');
