@@ -104,7 +104,11 @@ class IncomeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $income = Income::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        return view('user.show.income', compact('income'));
     }
 
     /**

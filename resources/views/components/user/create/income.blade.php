@@ -30,11 +30,11 @@ new class extends Component {
             <div class="flex items-center gap-3">
                 <a href="{{ route('beranda') }}" class="btn btn-ghost btn-sm btn-circle">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="size-6 text-primary">
+                        stroke="currentColor" class="size-6 text-default">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                <h1 class="text-lg font-bold text-primary">Tambah Pemasukan</h1>
+                <h1 class="text-lg font-bold text-default">Tambah Pemasukan</h1>
             </div>
         </div>
     </header>
