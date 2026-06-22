@@ -54,10 +54,11 @@
                                 <input
                                     class="input input-bordered w-full focus:input-primary pr-10 @error('password') input-error @enderror"
                                     id="password" name="password" type="password" placeholder="••••••••" />
-                                <button type="button" id="toggle-pass"
-                                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors">
-                                    <span id="eye-icon" class="material-symbols-outlined text-[20px]">visibility</span>
-                                    <span id="eye-slash-icon" class="material-symbols-outlined text-[20px] hidden">visibility_off</span>
+                                <button type="button"
+                                    class="toggle-password absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors"
+                                    data-target="password">
+                                    <span class="eye-icon material-symbols-outlined text-[20px]">visibility</span>
+                                    <span class="eye-slash-icon material-symbols-outlined text-[20px] hidden">visibility_off</span>
                                 </button>
                             </div>
                             @error('password')
@@ -91,20 +92,24 @@
         <div class="fixed bottom-0 right-0 w-64 h-64 bg-secondary/10 blur-[100px] pointer-events-none"></div>
 
         <script>
-            document.getElementById('toggle-pass').addEventListener('click', function() {
-                const input = document.getElementById('password');
-                const eyeIcon = document.getElementById('eye-icon');
-                const eyeSlashIcon = document.getElementById('eye-slash-icon');
+            // Toggle password visibility
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const input = document.getElementById(targetId);
+                    const eyeIcon = this.querySelector('.eye-icon');
+                    const eyeSlashIcon = this.querySelector('.eye-slash-icon');
 
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    eyeIcon.classList.add('hidden');
-                    eyeSlashIcon.classList.remove('hidden');
-                } else {
-                    input.type = 'password';
-                    eyeIcon.classList.remove('hidden');
-                    eyeSlashIcon.classList.add('hidden');
-                }
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        eyeIcon.classList.add('hidden');
+                        eyeSlashIcon.classList.remove('hidden');
+                    } else {
+                        input.type = 'password';
+                        eyeIcon.classList.remove('hidden');
+                        eyeSlashIcon.classList.add('hidden');
+                    }
+                });
             });
         </script>
     </div>

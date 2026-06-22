@@ -86,6 +86,10 @@
         "opsz" 24;
 }
 
+.material-symbols-outlined.hidden {
+    display: none;
+}
+
 /* Custom Error Styles */
 .input-error {
     border-color: #ef4444 !important;

@@ -42,6 +42,9 @@
     {{-- <link rel="manifest" href="{{ asset('site.webmanifest') }}"> --}}
     <meta name="theme-color" content="#4F46E5">
 
+    {{-- Google Material Symbols --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
