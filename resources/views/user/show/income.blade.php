@@ -98,19 +98,43 @@
             @endif
 
             <!-- Bottom Actions -->
+            <dialog id="delete_modal" class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box bg-white text-slate-800 rounded-2xl p-6">
+                    <h3 class="font-bold text-lg text-red-600 flex items-center gap-2">
+                        <span class="material-symbols-outlined">warning</span>
+                        Hapus Data Pemasukan?
+                    </h3>
+                    <p class="py-4 text-sm text-[#191c21]/70">
+                        Pemasukan <span class="font-bold text-green-500">Rp {{ number_format($income->amount, 0, ',', '.') }} ({{ $config['label'] }})</span> akan dihapus permanen. Data ini tidak dapat dikembalikan.
+                    </p>
+                    <div class="modal-action grid grid-cols-2 gap-3 mt-4">
+                        <form method="dialog">
+                            <button class="btn btn-outline border-base-300 w-full rounded-xl">Batal</button>
+                        </form>
+                        <form action="{{ route('incomes.destroy', $income->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn bg-red-500 hover:bg-red-600 text-white w-full rounded-xl border-none">
+                                Ya, Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" class="modal-backdrop bg-black/40">
+                    <button>close</button>
+                </form>
+            </dialog>
+
             <div class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto px-4 py-4 bg-[#f9f9ff]/80 backdrop-blur-md border-t border-base-300/30 z-40 flex gap-3">
                 <a href="{{ route('incomes.edit', $income->id) }}" class="btn btn-outline btn-primary flex-1 gap-2 rounded-xl">
                     <span class="material-symbols-outlined">edit</span>
                     Ubah
                 </a>
-                <form action="{{ route('incomes.destroy', $income->id) }}" method="POST" class="flex-1 flex" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn bg-red-500 text-white w-full gap-2 rounded-xl shadow-lg shadow-error/20 hover:opacity-90">
-                        <span class="material-symbols-outlined">delete</span>
-                        Hapus
-                    </button>
-                </form>
+                
+                <button onclick="delete_modal.showModal()" class="btn bg-red-500 text-white flex-1 gap-2 rounded-xl shadow-lg shadow-error/20 hover:opacity-90 border-none">
+                    <span class="material-symbols-outlined">delete</span>
+                    Hapus
+                </button>
             </div>
 
             <!-- Background decoration -->

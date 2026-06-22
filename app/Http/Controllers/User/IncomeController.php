@@ -132,6 +132,19 @@ class IncomeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $income = income::where('user_id', Auth::user()->id)->where('id', $id)->first();
+
+            $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+            $wallet->update([
+                'balance' => $wallet->balance - $income->amount,
+                'updated_at' => now(),
+            ]);
+
+            $income->delete();
+            return redirect()->route('history')->with('success', 'Pemasukan berhasil dihapus.');
+        } catch (Exception) {
+            return back()->with('error', 'Gagal saat menghapus pemasukan.');
+        }
     }
 }
