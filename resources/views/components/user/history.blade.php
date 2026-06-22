@@ -12,7 +12,6 @@ new class extends Component {
     public string $filter = 'semua'; // semua | pemasukan | pengeluaran
     public string $filterMonth;
     public string $filterYear;
-
     public function mount(int $user): void
     {
         $this->userId = $user;
@@ -23,6 +22,24 @@ new class extends Component {
     public function setFilter(string $filter): void
     {
         $this->filter = $filter;
+    }
+
+    #[Computed]
+    public function incomeTotal(): float
+    {
+        return Income::where('user_id', $this->userId)
+            ->whereYear('date', $this->filterYear)
+            ->whereMonth('date', $this->filterMonth)
+            ->sum('amount');
+    }
+
+    #[Computed]
+    public function expenseTotal(): float
+    {
+        return Expense::where('user_id', $this->userId)
+            ->whereYear('date', $this->filterYear)
+            ->whereMonth('date', $this->filterMonth)
+            ->sum('amount');
     }
 
     #[Computed]
@@ -48,7 +65,7 @@ new class extends Component {
                         'amount' => $item->amount,
                         'note' => $item->note,
                         'date' => Carbon::parse($item->date),
-                        'config' => \App\Models\Income::$typeConfig[$item->type] ?? \App\Models\Income::$typeConfig['other'],
+                        'config' => Income::$typeConfig[$item->type] ?? Income::$typeConfig['other'],
                         'route' => route('incomes.show', $item->id),
                     ]);
                 });
@@ -69,7 +86,7 @@ new class extends Component {
                         'amount' => $item->amount,
                         'note' => $item->note,
                         'date' => Carbon::parse($item->date),
-                        'config' => \App\Models\Expense::$typeConfig[$item->type] ?? \App\Models\Expense::$typeConfig['other'],
+                        'config' => Expense::$typeConfig[$item->type] ?? Expense::$typeConfig['other'],
                         'route' => route('expenses.show', $item->id),
                     ]);
                 });
@@ -157,6 +174,19 @@ new class extends Component {
                         {{ $filter === 'pengeluaran' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}"
                     id="tab-pengeluaran">Pengeluaran</button>
             </div>
+
+            <div class="flex items-center gap-3 w-full">
+                {{-- Pemasukan --}}
+                <div class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-green-200 bg-green-50 text-green-700 font-semibold text-xs justify-center rounded-2xl">
+                    <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                    Rp {{ number_format($this->incomeTotal, 0, ',', '.') }}
+                </div>
+                {{-- Pengeluaran --}}
+                <div class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs justify-center rounded-2xl">
+                    <span class="material-symbols-outlined text-[16px]">trending_down</span>
+                    Rp {{ number_format($this->expenseTotal, 0, ',', '.') }}
+                </div>
+            </div>
         </div>
 
         {{-- Transaction List --}}
@@ -194,11 +224,11 @@ new class extends Component {
                             <div class="text-right flex items-center gap-1">
                                 @if ($tx['kind'] === 'income')
                                     <p class="font-bold text-sm text-green-700">
-                                        + Rp{{ number_format($tx['amount'], 0, ',', '.') }}
+                                        + Rp {{ number_format($tx['amount'], 0, ',', '.') }}
                                     </p>
                                 @else
-                                    <p class="font-bold text-sm text-red-500">
-                                        - Rp{{ number_format($tx['amount'], 0, ',', '.') }}
+                                    <p class="font-bold text-sm text-rose-500">
+                                        - Rp {{ number_format($tx['amount'], 0, ',', '.') }}
                                     </p>
                                 @endif
                                 <span
