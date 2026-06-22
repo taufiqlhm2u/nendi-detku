@@ -91,14 +91,14 @@ class ExpenseController extends Controller
                 ['balance' => 0],
             );
 
-            if ($wallet->balance >= $validated['amount']) {
-                $wallet->update([
-                    'balance' => $wallet->balance - $validated['amount'],
-                    'updated_at' => now(),
-                ]);
-            } else {
-                return back()->with('warning', 'Saldo didalam dompet kurang.');
-            }
+            // if ($wallet->balance >= $validated['amount']) {
+            $wallet->update([
+                'balance' => $wallet->balance - $validated['amount'],
+                'updated_at' => now(),
+            ]);
+            // } else {
+            //     return back()->with('warning', 'Saldo didalam dompet kurang.');
+            // }
 
             return redirect()->route('beranda')->with('success', 'Pengeluaran berhasil ditambahkan.');
         } catch (Exception) {
@@ -139,6 +139,19 @@ class ExpenseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $expense = Expense::where('user_id', Auth::user()->id)->where('id', $id)->first();
+
+            $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+            $wallet->update([
+                'balance' => $wallet->balance + $expense->amount,
+                'updated_at' => now(),
+            ]);
+
+            $expense->delete();
+            return redirect()->route('history')->with('success', 'Pengeluaran berhasil dihapus.');
+        } catch (Exception) {
+            return back()->with('error', 'Gagal saat menghapus pengeluaran.');
+        }
     }
 }

@@ -22,11 +22,11 @@
             <!-- Transaction Header Card -->
             <div class="card bg-white border border-base-300/40 shadow-sm text-center">
                 <div class="card-body gap-2 items-center">
-                    <div class="badge gap-1 py-3 px-3 bg-red-100 text-red-700 border-red-200 font-semibold">
+                    <div class="badge gap-1 py-3 px-3 bg-rose-100 text-rose-700 border-rose-200 font-semibold">
                         <span class="material-symbols-outlined text-[14px]">trending_down</span>
                         Pengeluaran
                     </div>
-                    <h2 class="text-2xl font-extrabold tracking-tight text-red-500">-Rp {{ number_format($expense->amount, 0, ',', '.') }}</h2>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-rose-500">-Rp {{ number_format($expense->amount, 0, ',', '.') }}</h2>
                     <p class="text-sm text-[#191c21]/50">{{ $config['label'] }}</p>
                 </div>
             </div>
@@ -98,19 +98,43 @@
             @endif
 
             <!-- Bottom Actions -->
+           <dialog id="delete_modal" class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box bg-white text-slate-800 rounded-2xl p-6">
+                    <h3 class="font-bold text-lg text-red-600 flex items-center gap-2">
+                        <span class="material-symbols-outlined">warning</span>
+                        Hapus Data Pengeluaran?
+                    </h3>
+                    <p class="py-4 text-sm text-[#191c21]/70">
+                        Pengeluaran <span class="font-bold text-rose-500">Rp {{ number_format($expense->amount, 0, ',', '.') }} ({{ $config['label'] }})</span> akan dihapus permanen. Data ini tidak dapat dikembalikan.
+                    </p>
+                    <div class="modal-action grid grid-cols-2 gap-3 mt-4">
+                        <form method="dialog">
+                            <button class="btn btn-outline border-base-300 w-full rounded-xl">Batal</button>
+                        </form>
+                        <form action="{{ route('expenses.destroy', $expense->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn bg-red-500 hover:bg-red-600 text-white w-full rounded-xl border-none">
+                                Ya, Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" class="modal-backdrop bg-black/40">
+                    <button>close</button>
+                </form>
+            </dialog>
+
             <div class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto px-4 py-4 bg-[#f9f9ff]/80 backdrop-blur-md border-t border-base-300/30 z-40 flex gap-3">
                 <a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-outline btn-primary flex-1 gap-2 rounded-xl">
                     <span class="material-symbols-outlined">edit</span>
                     Ubah
                 </a>
-                <form action="{{ route('expenses.destroy', $expense->id) }}" method="POST" class="flex-1 flex" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn bg-red-500 text-white w-full gap-2 rounded-xl shadow-lg shadow-error/20 hover:opacity-90">
-                        <span class="material-symbols-outlined">delete</span>
-                        Hapus
-                    </button>
-                </form>
+                
+                <button onclick="delete_modal.showModal()" class="btn bg-red-500 text-white flex-1 gap-2 rounded-xl shadow-lg shadow-error/20 hover:opacity-90 border-none">
+                    <span class="material-symbols-outlined">delete</span>
+                    Hapus
+                </button>
             </div>
 
             <!-- Background decoration -->
