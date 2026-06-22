@@ -219,7 +219,7 @@ new class extends Component {
     <main class="px-4 pt-5 space-y-6 max-w-2xl mx-auto pb-24">
 
         {{-- ===== Balance Card ===== --}}
-        <section class="card bg-white shadow border border-outline-variant overflow-hidden">
+        <section class="card bg-white shadow overflow-hidden border border-transparent">
             <div class="h-1.5 w-full bg-linear-to-r from-primary to-primary-dark"></div>
             <div class="card-body p-5">
                 <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-1">Saldo Kamu</p>
@@ -236,7 +236,7 @@ new class extends Component {
                     </div>
                     {{-- Pengeluaran --}}
                     <div
-                        class="badge badge-outline gap-1.5 py-3 px-3 border-red-200 bg-red-50 text-red-700 font-semibold text-xs">
+                        class="badge badge-outline gap-1.5 py-3 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs">
                         <span class="material-symbols-outlined text-[16px]">trending_down</span>
                         Rp {{ number_format($totalExpense, 0, ',', '.') }}
                     </div>
@@ -274,7 +274,7 @@ new class extends Component {
                 </div>
             </div>
 
-            <div class="card bg-white shadow border border-outline-variant p-5">
+            <div class="card bg-white shadow p-5 border border-transparent">
                 @php
                     $chartAmounts = $chartData['amounts'];
                     $chartLabels = $chartData['labels'];
@@ -302,7 +302,7 @@ new class extends Component {
                                 class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                                 Rp {{ number_format($amount, 0, ',', '.') }}
                             </span>
-                            <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-primary' : 'bg-primary/20' }}"
+                            <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-100' }}"
                                 style="height:{{ max($pct, $amount > 0 ? 4 : ($isToday ? 3 : 0)) }}%">
                             </div>
                         </div>
@@ -340,7 +340,7 @@ new class extends Component {
                 @forelse ($transactions as $trx)
                     @php $cfg = $trx['config'] @endphp
                     <a href="{{ $trx['route'] }}"
-                        class="card bg-white border border-outline-variant hover:border-primary/40 transition-colors shadow-sm">
+                        class="card bg-white border border-transparent hover:border-primary/40 transition-colors shadow-sm">
                         <div class="card-body p-4 flex-row items-center justify-between gap-3">
                             <div class="flex items-center gap-4">
                                 <div
@@ -363,7 +363,7 @@ new class extends Component {
                                         + Rp {{ number_format($trx['amount'], 0, ',', '.') }}
                                     </p>
                                 @else
-                                    <p class="font-bold text-sm text-red-600 whitespace-nowrap">
+                                    <p class="font-bold text-sm text-rose-600 whitespace-nowrap">
                                         - Rp {{ number_format($trx['amount'], 0, ',', '.') }}
                                     </p>
                                 @endif
