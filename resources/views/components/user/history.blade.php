@@ -27,19 +27,13 @@ new class extends Component {
     #[Computed]
     public function incomeTotal(): float
     {
-        return Income::where('user_id', $this->userId)
-            ->whereYear('date', $this->filterYear)
-            ->whereMonth('date', $this->filterMonth)
-            ->sum('amount');
+        return Income::where('user_id', $this->userId)->whereYear('date', $this->filterYear)->whereMonth('date', $this->filterMonth)->sum('amount');
     }
 
     #[Computed]
     public function expenseTotal(): float
     {
-        return Expense::where('user_id', $this->userId)
-            ->whereYear('date', $this->filterYear)
-            ->whereMonth('date', $this->filterMonth)
-            ->sum('amount');
+        return Expense::where('user_id', $this->userId)->whereYear('date', $this->filterYear)->whereMonth('date', $this->filterMonth)->sum('amount');
     }
 
     #[Computed]
@@ -177,12 +171,14 @@ new class extends Component {
 
             <div class="flex items-center gap-3 w-full">
                 {{-- Pemasukan --}}
-                <div class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-green-200 bg-green-50 text-green-700 font-semibold text-xs justify-center rounded-2xl">
+                <div
+                    class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-green-200 bg-green-50 text-green-700 font-semibold text-xs justify-center rounded-2xl">
                     <span class="material-symbols-outlined text-[16px]">trending_up</span>
                     Rp {{ number_format($this->incomeTotal, 0, ',', '.') }}
                 </div>
                 {{-- Pengeluaran --}}
-                <div class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs justify-center rounded-2xl">
+                <div
+                    class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs justify-center rounded-2xl">
                     <span class="material-symbols-outlined text-[16px]">trending_down</span>
                     Rp {{ number_format($this->expenseTotal, 0, ',', '.') }}
                 </div>
@@ -242,7 +238,7 @@ new class extends Component {
                 {{-- Empty State --}}
                 <div class="flex flex-col items-center justify-center py-16 text-center">
                     <div class="w-16 h-16 rounded-2xl bg-base-200 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-3xl text-[#191c21]/30">receipt_long</span>
+                        <span class="material-symbols-outlined text-3xl text-[#191c21]/30">inbox</span>
                     </div>
                     <p class="font-semibold text-sm text-[#191c21]/60">Tidak ada transaksi</p>
                     <p class="text-xs text-[#191c21]/40 mt-1">
