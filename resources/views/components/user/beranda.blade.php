@@ -56,7 +56,7 @@ new class extends Component {
                 'date' => $i->date,
                 'created_at' => $i->created_at,
                 'config' => Income::getTypeConfig($i->type),
-                'route' => route('incomes.show', $i->id)
+                'route' => route('incomes.show', $i->id),
             ],
         );
 
@@ -69,7 +69,7 @@ new class extends Component {
                 'date' => $e->date,
                 'created_at' => $e->created_at,
                 'config' => Expense::getTypeConfig($e->type),
-                'route' => route('expenses.show', $e->id)
+                'route' => route('expenses.show', $e->id),
             ],
         );
 
@@ -375,7 +375,7 @@ new class extends Component {
                     </a>
                 @empty
                     <div class="text-center py-10 text-base-content/40">
-                        <span class="material-symbols-outlined text-5xl mx-auto mb-3 opacity-30">assignment</span>
+                        <span class="material-symbols-outlined text-5xl mx-auto mb-3 opacity-30">inbox</span>
                         <p class="text-sm">Belum ada transaksi</p>
                     </div>
                 @endforelse
