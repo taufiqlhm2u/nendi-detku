@@ -8,6 +8,7 @@ use App\Models\Wallet;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Image\Image;
 
 class IncomeController extends Controller
@@ -15,7 +16,10 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index()
+    {
+        return redirect()->route('history');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -58,10 +62,6 @@ class IncomeController extends Controller
         if ($request->hasFile('photo')) {
             $folder = storage_path('app/public/transaction/income');
 
-            if (!file_exists($folder)) {
-                mkdir($folder, 0755, true);
-            }
-
             $fileName = uniqid() . '.jpg';
             $fullPath = $folder . '/' . $fileName;
 
@@ -93,9 +93,9 @@ class IncomeController extends Controller
                 'updated_at' => now(),
             ]);
 
-            return redirect()->route('beranda')->with('success', 'Pemasukan berhasil ditambahkan.');
+            return redirect()->route('beranda')->with('success', 'Pemasukan berhasil dicatat!');
         } catch (Exception) {
-            return back()->with('error', 'Gagal saat menambahkan pemasukan.');
+            return back()->with('error', 'Terjadi kesalahan, pemasukan gagal disimpan.');
         }
     }
 
@@ -108,6 +108,10 @@ class IncomeController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
+        if (!$income) {
+            return back()->with('error', 'Data pemasukan tidak ditemukan.');
+        }
+
         return view('user.show.income', compact('income'));
     }
 
@@ -116,7 +120,15 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $income = Income::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        if (!$income) {
+            return back()->with('error', 'Data tidak ditemukan');
+        }
+
+        return view('user.edit.income', compact('income'));
     }
 
     /**
@@ -124,7 +136,78 @@ class IncomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'type' => 'required||in:allowance,salary,freelance,bonus,investment,other',
+            'date' => 'required|date',
+            'note' => 'nullable|string|max:1000',
+            'photo' => 'nullable|image|max:3072',
+        ], [
+            'amount.required' => 'Jumlah transaksi wajib diisi.',
+            'amount.numeric' => 'Jumlah transaksi harus berupa angka.',
+            'amount.min' => 'Jumlah transaksi minimal Rp1.000',
+
+            'type.required' => 'Jenis transaksi wajib dipilih.',
+            'type.in' => 'Kategori yang dipilih tidak valid.',
+
+            'date.required' => 'Tanggal transaksi wajib diisi.',
+            'date.date' => 'Format tanggal tidak valid.',
+
+            'note.string' => 'Catatan harus berupa teks.',
+            'note.max' => 'Catatan maksimal 1000 karakter.',
+
+            'photo.image' => 'File yang diunggah harus berupa gambar.',
+            'photo.max' => 'Ukuran gambar maksimal 3 MB.',
+        ]);
+
+        $income = income::where('user_id', Auth::user()->id)->where('id', $id)->first();
+
+        if (!$income) {
+            return back()->with('error', 'Data pemasukan tidak ditemukan.');
+        }
+
+        $selisih = $validated['amount'] - $income->amount;
+
+        $photoPath = $income->image;
+        if ($request->hasFile('photo')) {
+            Storage::disk('public')->delete($income->image);
+            $folder = storage_path('app/public/transaction/income');
+
+            $fileName = uniqid() . '.jpg';
+            $fullPath = $folder . '/' . $fileName;
+
+            Image::load($request->file('photo')->getPathname())
+                ->width(1200)
+                ->quality(75)
+                ->save($fullPath);
+
+            $photoPath = 'transaction/income/' . $fileName;
+        }
+
+        try {
+            $income->update([
+                'user_id' => Auth::user()->id,
+                'amount' => $validated['amount'],
+                'type' => $validated['type'],
+                'date' => $validated['date'],
+                'note' => $validated['note'],
+                'image' => $photoPath,
+            ]);
+
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => Auth::user()->id],
+                ['balance' => 0],
+            );
+
+            $wallet->update([
+                'balance' => $wallet->balance + $selisih,
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->route('beranda')->with('success', 'Data pemasukan berhasil diperbarui.');
+        } catch (Exception) {
+            return back()->with('error', 'Terjadi kesalahan, pemasukan gagal diperbarui.');
+        }
     }
 
     /**
@@ -135,16 +218,24 @@ class IncomeController extends Controller
         try {
             $income = income::where('user_id', Auth::user()->id)->where('id', $id)->first();
 
+            if (!$income) {
+                return back()->with('error', 'Data pemasukan tidak ditemukan.');
+            }
+
             $wallet = Wallet::where('user_id', Auth::user()->id)->first();
             $wallet->update([
                 'balance' => $wallet->balance - $income->amount,
                 'updated_at' => now(),
             ]);
 
+            if ($income->image) {
+                Storage::disk('public')->delete($income->image);
+            }
+
             $income->delete();
             return redirect()->route('history')->with('success', 'Pemasukan berhasil dihapus.');
         } catch (Exception) {
-            return back()->with('error', 'Gagal saat menghapus pemasukan.');
+            return back()->with('error', 'Terjadi kesalahan, pemasukan gagal dihapus.');
         }
     }
 }
