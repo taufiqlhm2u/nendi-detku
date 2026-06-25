@@ -35,8 +35,8 @@
         </a>
 
         <!-- Profil -->
-        <a href="/profil"
-            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('profil') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
+        <a href="{{route('profile.index')}}"
+            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('profile*') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
             <span class="material-symbols-outlined text-[26px]"
                 style="{{ request()->routeIs('profil') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">account_circle</span>
             <span class="text-xs {{ request()->routeIs('profil') ? 'font-semibold' : 'font-medium' }}">Profil</span>
@@ -81,7 +81,7 @@
                     <div class="flex items-center gap-3">
                         <div
                             class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                            <span class="material-symbols-outlined text-[24px] text-red-500">arrow_upward</span>
+                            <span class="material-symbols-outlined text-[24px] text-rose-500">arrow_upward</span>
                         </div>
                         <div class="text-left">
                             <p class="font-bold text-gray-800 text-lg">Pengeluaran</p>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <span
-                        class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-red-600 group-hover:translate-x-1 transition-all">chevron_right</span>
+                        class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-rose-600 group-hover:translate-x-1 transition-all">chevron_right</span>
                 </div>
             </a>
         </div>
