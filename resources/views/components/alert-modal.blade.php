@@ -25,25 +25,25 @@
                 'icon' => 'check_circle',
                 'title' => 'Berhasil',
                 'icon_class' => 'text-emerald-500',
-                'btn_class' => 'bg-emerald-500 hover:bg-emerald-600 text-white',
+                'btn_class' => 'bg-emerald-500 hover:bg-emerald-600 text-white border border-emerald-500 hover:border-emerald-600',
             ],
             'error' => [
                 'icon' => 'cancel',
                 'title' => 'Gagal',
                 'icon_class' => 'text-red-500',
-                'btn_class' => 'bg-red-500 hover:bg-red-600 text-white',
+                'btn_class' => 'bg-red-500 hover:bg-red-600 text-white border border-red-500 hover:border-red-600',
             ],
             'warning' => [
                 'icon' => 'warning',
                 'title' => 'Perhatian',
                 'icon_class' => 'text-amber-500',
-                'btn_class' => 'bg-amber-500 hover:bg-amber-600 text-white',
+                'btn_class' => 'bg-amber-500 hover:bg-amber-600 text-white border border-amber-500 hover:border-amber-600',
             ],
             'info' => [
                 'icon' => 'info',
                 'title' => 'Informasi',
                 'icon_class' => 'text-blue-500',
-                'btn_class' => 'bg-blue-500 hover:bg-blue-600 text-white',
+                'btn_class' => 'bg-blue-500 hover:bg-blue-600 text-white border border-blue-500 hover:border-blue-600',
             ],
         ];
         $c = $config[$alertType];
@@ -57,7 +57,7 @@
             <p class="text-sm text-base-content/60 mt-2">{{ $alertMessage }}</p>
             <div class="mt-6">
                 <button onclick="alert_modal.close()"
-                    class="w-full py-2.5 rounded-xl text-sm font-semibold transition-colors {{ $c['btn_class'] }}">
+                    class="btn-alert outline-0 border-0 w-full py-2.5 rounded-xl text-sm font-semibold transition-colors {{ $c['btn_class'] }}">
                     OK
                 </button>
             </div>
