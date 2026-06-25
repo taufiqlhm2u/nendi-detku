@@ -52,11 +52,7 @@
 <body>
     {{ $slot }}
 
-    @auth()
-        @if (Auth::user()->role == 'user')
-            <x-alert-modal />
-        @endif
-    @endauth
+    <x-alert-modal />
     @livewireScripts
 </body>
 
