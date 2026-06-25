@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\BerandaController;
 use App\Http\Controllers\User\ExpenseController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\IncomeController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +36,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
 
-    Route::post('/logout', [LoginController::class, 'logout'])
+    Route::resource('profil', ProfileController::class)->only(['index', 'edit', 'update', 'destroy'])->names('profile');
+
+    Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });

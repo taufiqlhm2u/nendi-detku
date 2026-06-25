@@ -35,7 +35,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             if (Auth::user()->role == 'user') {
-                return redirect()->route('beranda')->with('success', 'Selamat datang');
+                return redirect()->route('beranda')->with('info', 'Selamat datang kembali ' . Auth::user()->name . '.');
             }
         }
 
@@ -44,15 +44,5 @@ class LoginController extends Controller
                 'email' => 'Email atau password salah.',
             ])
             ->onlyInput('email');
-    }
-
-    public function logout(Request $request) 
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login');
     }
 }
