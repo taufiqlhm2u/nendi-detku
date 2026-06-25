@@ -236,7 +236,7 @@ new class extends Component {
                     </div>
                     {{-- Pengeluaran --}}
                     <div
-                        class="badge badge-outline gap-1.5 py-3 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs">
+                        class="badge badge-outline gap-1.5 py-3 px-3 border-rose-200 bg-rose-50 text-rose-600 font-semibold text-xs">
                         <span class="material-symbols-outlined text-[16px]">trending_down</span>
                         Rp {{ number_format($totalExpense, 0, ',', '.') }}
                     </div>
@@ -302,7 +302,7 @@ new class extends Component {
                                 class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                                 Rp {{ number_format($amount, 0, ',', '.') }}
                             </span>
-                            <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-100' }}"
+                            <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-200' }}"
                                 style="height:{{ max($pct, $amount > 0 ? 4 : ($isToday ? 3 : 0)) }}%">
                             </div>
                         </div>
@@ -326,8 +326,9 @@ new class extends Component {
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold text-base-content">Transaksi Terakhir</h3>
                 <a href="{{ route('history') }}"
-                    class="text-[11px] font-semibold text-primary hover:text-primary/70 transition-colors">Lihat
-                    Semua →</a>
+                    class="text-[11px] font-semibold text-primary hover:text-primary/70 transition-colors flex items-center">
+                    Lihat Semua ➝
+                </a>
             </div>
 
             <div class="space-y-2.5 relative">

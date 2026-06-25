@@ -6,7 +6,7 @@
             <div class="max-w-xl mx-auto flex items-center gap-3 px-4 py-3">
                 <a href="{{ route('history') }}"
                     class="btn btn-sm btn-ghost btn-circle">
-                    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    <span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span>
                 </a>
                 <h1 class="text-base font-bold flex-1">Detail Pengeluaran</h1>
             </div>

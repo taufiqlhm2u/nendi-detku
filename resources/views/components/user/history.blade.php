@@ -178,7 +178,7 @@ new class extends Component {
                 </div>
                 {{-- Pengeluaran --}}
                 <div
-                    class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-rose-200 bg-rose-50 text-rose-700 font-semibold text-xs justify-center rounded-2xl">
+                    class="flex-1 badge badge-outline gap-1.5 py-4 px-3 border-rose-200 bg-rose-50 text-rose-600 font-semibold text-xs justify-center rounded-2xl">
                     <span class="material-symbols-outlined text-[16px]">trending_down</span>
                     Rp {{ number_format($this->expenseTotal, 0, ',', '.') }}
                 </div>
@@ -223,7 +223,7 @@ new class extends Component {
                                         + Rp {{ number_format($tx['amount'], 0, ',', '.') }}
                                     </p>
                                 @else
-                                    <p class="font-bold text-sm text-rose-500">
+                                    <p class="font-bold text-sm text-rose-600">
                                         - Rp {{ number_format($tx['amount'], 0, ',', '.') }}
                                     </p>
                                 @endif

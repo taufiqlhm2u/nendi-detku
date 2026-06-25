@@ -29,7 +29,7 @@ new class extends Component {
         <div class="max-w-xl mx-auto flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3">
                 <a href="{{ route('beranda') }}" class="btn btn-ghost btn-sm btn-circle">
-                    <span class="material-symbols-outlined text-[24px] text-default">arrow_back</span>
+                    <span class="material-symbols-outlined text-[24px] text-default">arrow_back_ios_new</span>
                 </a>
                 <h1 class="text-lg font-bold text-default">Tambah Pemasukan</h1>
             </div>
@@ -73,12 +73,12 @@ new class extends Component {
 
                         <div class="relative flex items-center">
                             <span
-                                class="absolute left-4 z-10 text-primary font-bold text-xl pointer-events-none select-none">Rp</span>
+                                class="absolute left-4 z-10 text-green-600 font-bold text-xl pointer-events-none select-none">Rp</span>
 
                             {{-- Input tampilan: dikelola Alpine, TIDAK punya name --}}
                             <input id="amount_display" type="text" inputmode="numeric" placeholder="0"
                                 x-bind:value="formatted" x-on:input="onInput($event)" autocomplete="off"
-                                class="input input-bordered focus:input-primary w-full h-16 pl-14 text-primary text-3xl font-extrabold placeholder:text-primary/25 @error('amount') input-error @enderror" />
+                                class="input input-bordered focus:input-primary w-full h-16 pl-14 text-green-600 text-3xl font-extrabold placeholder:text-green-600/25 @error('amount') input-error @enderror" />
 
                             {{-- Hidden input: nilai bersih (angka saja) dikirim ke server --}}
                             <input type="hidden" name="amount" x-bind:value="raw" />
