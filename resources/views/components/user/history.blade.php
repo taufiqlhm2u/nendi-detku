@@ -127,11 +127,15 @@ new class extends Component {
 
 <div>
     {{-- Page Header: Riwayat --}}
-    {{-- <header
-        class="w-full sticky top-0 z-50 bg-[#f9f9ff]/80 backdrop-blur-md border-b border-[#e1e2e9] px-4 pt-[max(0.875rem,env(safe-area-inset-top))] pb-3.5">
-        <h1 class="text-[19px] font-bold text-base-content leading-tight">Riwayat</h1>
-    </header> --}}
-    <main class="px-4 pt-4 space-y-5 max-w-xl mx-auto">
+    <main class="px-4 pt-4 space-y-5 max-w-xl mx-auto relative">
+        {{-- Global Loading Overlay --}}
+        <div wire:loading wire:target="setFilter, filterMonth, filterYear"
+            class="absolute inset-0 z-50 bg-base-100/50 backdrop-blur-sm rounded-3xl">
+            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <span class="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        </div>
+
         <h1 class="text-xl font-bold tracking-tight">Riwayat</h1>
         {{-- Filter Controls --}}
         <div class="space-y-3 page-fade" style="--delay: 0s">
