@@ -221,7 +221,7 @@ new class extends Component {
     <main class="px-4 pt-5 space-y-6 max-w-2xl mx-auto pb-24">
 
         {{-- ===== Balance Card ===== --}}
-        <section class="card bg-white shadow overflow-hidden border border-transparent">
+        <section class="card bg-white shadow overflow-hidden border border-transparent page-fade" style="--delay: 0s">
             <div class="h-1.5 w-full bg-linear-to-r from-primary to-primary-dark"></div>
             <div class="card-body p-5">
                 <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-1">Saldo Kamu</p>
@@ -249,7 +249,7 @@ new class extends Component {
         </section>
 
         {{-- ===== Financial Chart ===== --}}
-        <section class="space-y-3">
+        <section class="space-y-3 page-fade" style="--delay: 0.1s">
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="text-lg font-bold text-base-content leading-tight">Pengeluaran</h3>
@@ -327,7 +327,7 @@ new class extends Component {
         </section>
 
         {{-- ===== Recent Transactions ===== --}}
-        <section class="space-y-3">
+        <section class="space-y-3 page-fade" style="--delay: 0.2s">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold text-base-content">Transaksi Terakhir</h3>
                 <a href="{{ route('history') }}"

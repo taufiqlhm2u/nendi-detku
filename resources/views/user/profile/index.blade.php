@@ -4,7 +4,7 @@
         <main class="max-w-md mx-auto px-4 pt-8 flex flex-col items-center">
 
             <!-- Profile Header -->
-            <div class="flex flex-col items-center mb-8">
+            <div class="flex flex-col items-center mb-8 page-fade" style="--delay:0s">
                 <div class="avatar">
                     <div class="w-24 rounded-full ring-2 ring-white shadow-md">
                         <img alt="User Avatar"
@@ -17,7 +17,7 @@
             </div>
 
             <!-- Settings List -->
-            <div class="w-full flex flex-col gap-5">
+            <div class="w-full flex flex-col gap-5 page-fade" style="--delay:0.1s">
 
                 <!-- Akun Section -->
                 <div>

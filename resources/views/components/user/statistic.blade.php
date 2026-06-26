@@ -474,16 +474,5 @@ new class extends Component
     </main>
 
     @push('styles')
-    <style>
-        /* ── Fade-in animasi per section ── */
-        @keyframes statFadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .stat-fade {
-            animation: statFadeIn 0.45s ease-out both;
-            animation-delay: var(--delay, 0s);
-        }
-    </style>
     @endpush
 </div>

@@ -120,7 +120,7 @@ class ProfileController extends Controller
                 'password' => Hash::make($validated['new_password']),
             ]);
 
-            return redirect()->route('password')
+            return redirect()->route('profile.index')
                 ->with('success', 'Password berhasil diperbarui.');
         } catch (Exception $e) {
             return redirect()->route('password')

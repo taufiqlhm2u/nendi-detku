@@ -134,7 +134,7 @@ new class extends Component {
     <main class="px-4 pt-4 space-y-5 max-w-xl mx-auto">
         <h1 class="text-xl font-bold tracking-tight">Riwayat</h1>
         {{-- Filter Controls --}}
-        <div class="space-y-3">
+        <div class="space-y-3 page-fade" style="--delay: 0s">
 
             {{-- Month & Year Selectors --}}
             <div class="flex items-center gap-2">
@@ -193,7 +193,7 @@ new class extends Component {
         </div>
 
         {{-- Transaction List --}}
-        <div class="space-y-6 pb-12">
+        <div class="space-y-6 pb-12 page-fade" style="--delay: 0.1s">
 
             @forelse ($this->groupedTransactions as $dateKey => $group)
                 <section class="space-y-2">
