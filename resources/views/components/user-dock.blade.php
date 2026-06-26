@@ -36,7 +36,7 @@
 
         <!-- Profil -->
         <a href="{{route('profile.index')}}"
-            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('profile*') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
+            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('profile*') || request()->routeIs('password*') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
             <span class="material-symbols-outlined text-[26px]"
                 style="{{ request()->routeIs('profil') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">account_circle</span>
             <span class="text-xs {{ request()->routeIs('profil') ? 'font-semibold' : 'font-medium' }}">Profil</span>

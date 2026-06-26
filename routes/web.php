@@ -20,11 +20,6 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'store'])->name('login.verif');
-
-    Route::get('/register', [RegisterController::class, 'index'])->name('register');
-    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -37,6 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
 
     Route::resource('profil', ProfileController::class)->only(['index', 'edit', 'update', 'destroy'])->names('profile');
+
+    // ubah password
+    Route::get('/ubah-password', [ProfileController::class, 'editPassword'])->name('password');
+
+    Route::put('/ubah-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');

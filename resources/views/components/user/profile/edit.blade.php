@@ -155,29 +155,33 @@ new class extends Component {
                 @method('PUT')
 
                 {{-- Nama Lengkap --}}
-                <div class="flex flex-col gap-1">
-                    <label class="text-xs font-semibold text-base-content/50" for="name">Nama Lengkap</label>
-                    <label class="input w-full h-12 rounded-xl {{ $errors->has('name') ? 'input-error' : '' }}">
+                <div class="form-control gap-1">
+                    <label class="label py-0" for="name">
+                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Nama Lengkap</span>
+                    </label>
+                    <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('name') input-error @enderror">
                         <span class="material-symbols-outlined text-[18px] opacity-40">person</span>
-                        <input id="name" type="text" name="name"
+                        <input class="w-full bg-transparent outline-none" id="name" type="text" name="name"
                             value="{{ old('name', auth()->user()->name) }}" placeholder="Nama lengkap" required
                             minlength="2" maxlength="255" />
                     </label>
                     @error('name')
-                        <p class="text-error text-xs">{{ $message }}</p>
+                        <p class="text-xs text-error mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- Email --}}
-                <div class="flex flex-col gap-1">
-                    <label class="text-xs font-semibold text-base-content/50" for="email">Email</label>
-                    <label class="input w-full h-12 rounded-xl {{ $errors->has('email') ? 'input-error' : '' }}">
+                <div class="form-control gap-1">
+                    <label class="label py-0" for="email">
+                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                    </label>
+                    <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
                         <span class="material-symbols-outlined text-[18px] opacity-40">mail</span>
-                        <input id="email" type="email" name="email"
+                        <input class="w-full bg-transparent outline-none" id="email" type="email" name="email"
                             value="{{ old('email', auth()->user()->email) }}" placeholder="mail@site.com" required />
                     </label>
                     @error('email')
-                        <p class="text-error text-xs">{{ $message }}</p>
+                        <p class="text-xs text-error mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
