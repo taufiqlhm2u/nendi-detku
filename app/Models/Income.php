@@ -81,6 +81,15 @@ class Income extends Model
         return static::$typeConfig[$type] ?? static::$typeConfig['Other'];
     }
 
+    /**
+     * Format jumlah pemasukan ke format Rupiah (tanpa simbol).
+     * Contoh: 2000000 → "2.000.000"
+     */
+    public function formattedAmount(): string
+    {
+        return number_format($this->amount, 0, ',', '.');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

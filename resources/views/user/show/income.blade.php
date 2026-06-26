@@ -26,7 +26,7 @@
                         <span class="material-symbols-outlined text-[14px]">trending_up</span>
                         Pemasukan
                     </div>
-                    <h2 class="text-2xl font-extrabold tracking-tight text-green-700">+Rp {{ number_format($income->amount, 0, ',', '.') }}</h2>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-green-700">+Rp {{ $income->formattedAmount() }}</h2>
                     <p class="text-sm text-[#191c21]/50">{{ $config['label'] }}</p>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                         Hapus Data Pemasukan?
                     </h3>
                     <p class="py-4 text-sm text-[#191c21]/70">
-                        Pemasukan <span class="font-bold text-green-500">Rp {{ number_format($income->amount, 0, ',', '.') }} ({{ $config['label'] }})</span> akan dihapus permanen. Data ini tidak dapat dikembalikan.
+                        Pemasukan <span class="font-bold text-green-500">Rp {{ $income->formattedAmount() }} ({{ $config['label'] }})</span> akan dihapus permanen. Data ini tidak dapat dikembalikan.
                     </p>
                     <div class="modal-action grid grid-cols-2 gap-3 mt-4">
                         <form method="dialog">

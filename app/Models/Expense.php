@@ -90,6 +90,15 @@ class Expense extends Model
         return static::$typeConfig[$type] ?? static::$typeConfig['Other'];
     }
 
+    /**
+     * Format jumlah pengeluaran ke format Rupiah (tanpa simbol).
+     * Contoh: 1500000 → "1.500.000"
+     */
+    public function formattedAmount(): string
+    {
+        return number_format($this->amount, 0, ',', '.');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -52,6 +52,7 @@ new class extends Component {
                 'type_group' => 'income',
                 'type' => $i->type,
                 'amount' => $i->amount,
+                'formatted_amount' => $i->formattedAmount(),
                 'note' => $i->note,
                 'date' => $i->date,
                 'created_at' => $i->created_at,
@@ -65,6 +66,7 @@ new class extends Component {
                 'type_group' => 'expense',
                 'type' => $e->type,
                 'amount' => $e->amount,
+                'formatted_amount' => $e->formattedAmount(),
                 'note' => $e->note,
                 'date' => $e->date,
                 'created_at' => $e->created_at,
@@ -226,6 +228,7 @@ new class extends Component {
                 <h2 class="text-3xl font-extrabold text-base-content mb-5 tracking-tight">
                     Rp {{ number_format($balance, 0, ',', '.') }}
                 </h2>
+{{-- balance tetap pakai number_format karena bukan dari model langsung --}}
 
                 <div class="flex items-center gap-3">
                     {{-- Pemasukan --}}
@@ -240,6 +243,7 @@ new class extends Component {
                         <span class="material-symbols-outlined text-[16px]">trending_down</span>
                         Rp {{ number_format($totalExpense, 0, ',', '.') }}
                     </div>
+{{-- totalIncome & totalExpense = agregasi DB (bukan instance model), tetap pakai number_format --}}
                 </div>
             </div>
         </section>
@@ -302,6 +306,7 @@ new class extends Component {
                                 class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                                 Rp {{ number_format($amount, 0, ',', '.') }}
                             </span>
+{{-- $amount pada chart = integer mentah dari aggregasi, bukan instance model --}}
                             <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-200' }}"
                                 style="height:{{ max($pct, $amount > 0 ? 4 : ($isToday ? 3 : 0)) }}%">
                             </div>
@@ -361,11 +366,11 @@ new class extends Component {
                             <div class="text-right">
                                 @if ($trx['type_group'] === 'income')
                                     <p class="font-bold text-sm text-green-600 whitespace-nowrap">
-                                        + Rp {{ number_format($trx['amount'], 0, ',', '.') }}
+                                        + Rp {{ $trx['formatted_amount'] }}
                                     </p>
                                 @else
                                     <p class="font-bold text-sm text-rose-600 whitespace-nowrap">
-                                        - Rp {{ number_format($trx['amount'], 0, ',', '.') }}
+                                        - Rp {{ $trx['formatted_amount'] }}
                                     </p>
                                 @endif
                                 <p class="text-xs text-base-content/50 mt-0.5">

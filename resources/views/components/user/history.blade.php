@@ -57,6 +57,7 @@ new class extends Component {
                         'kind' => 'income',
                         'type' => $item->type,
                         'amount' => $item->amount,
+                        'formatted_amount' => $item->formattedAmount(),
                         'note' => $item->note,
                         'date' => Carbon::parse($item->date),
                         'config' => Income::$typeConfig[$item->type] ?? Income::$typeConfig['other'],
@@ -78,6 +79,7 @@ new class extends Component {
                         'kind' => 'expense',
                         'type' => $item->type,
                         'amount' => $item->amount,
+                        'formatted_amount' => $item->formattedAmount(),
                         'note' => $item->note,
                         'date' => Carbon::parse($item->date),
                         'config' => Expense::$typeConfig[$item->type] ?? Expense::$typeConfig['other'],
@@ -220,11 +222,11 @@ new class extends Component {
                             <div class="text-right flex items-center gap-1">
                                 @if ($tx['kind'] === 'income')
                                     <p class="font-bold text-sm text-green-700">
-                                        + Rp {{ number_format($tx['amount'], 0, ',', '.') }}
+                                        + Rp {{ $tx['formatted_amount'] }}
                                     </p>
                                 @else
                                     <p class="font-bold text-sm text-rose-600">
-                                        - Rp {{ number_format($tx['amount'], 0, ',', '.') }}
+                                        - Rp {{ $tx['formatted_amount'] }}
                                     </p>
                                 @endif
                                 <span
