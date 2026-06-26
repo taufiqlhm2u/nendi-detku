@@ -31,31 +31,29 @@
                         <!-- Email -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="email">
-                                <span
-                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
                             </label>
-                                <input
-                                    class="input input-bordered w-full focus:input-primary @error('email') input-error @enderror"
-                                    id="email" name="email" type="email" placeholder="nama@email.com"
-                                    value="{{ old('email') }}" autofocus />
-                                @error('email')
-                                    <p class="text-xs text-error mt-1">{{ $message }}</p>
-                                @enderror
+                            <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
+                                <span class="material-symbols-outlined text-[18px] opacity-40">mail</span>
+                                <input class="w-full bg-transparent outline-none" id="email" name="email" type="email" placeholder="nama@email.com" value="{{ old('email') }}" autofocus />
+                            </label>
+                            @error('email')
+                                <p class="text-xs text-error mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Password dengan toggle mata di dalam input -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password">
-                                <span
-                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Kata
-                                    Sandi</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Kata Sandi</span>
                             </label>
-                            <div class="relative">
-                                <input
-                                    class="input input-bordered w-full focus:input-primary pr-10 @error('password') input-error @enderror"
-                                    id="password" name="password" type="password" placeholder="••••••••" />
+                            <div class="relative flex items-center">
+                                <label class="input input-bordered w-full flex items-center gap-2 pr-10 focus-within:input-primary @error('password') input-error @enderror">
+                                    <span class="material-symbols-outlined text-[18px] opacity-40">lock</span>
+                                    <input class="w-full bg-transparent outline-none" id="password" name="password" type="password" placeholder="••••••••" />
+                                </label>
                                 <button type="button"
-                                    class="toggle-password absolute inset-y-0 right-0 flex items-center pr-3 text-base-content/60 hover:text-primary transition-colors"
+                                    class="toggle-password absolute right-3 flex items-center text-base-content/60 hover:text-primary transition-colors"
                                     data-target="password">
                                     <span class="eye-icon material-symbols-outlined text-[20px]">visibility</span>
                                     <span class="eye-slash-icon material-symbols-outlined text-[20px] hidden">visibility_off</span>
