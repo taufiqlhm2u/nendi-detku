@@ -8,6 +8,7 @@ use App\Http\Controllers\User\ExpenseController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\IncomeController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\StatisticController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('pengeluaran', ExpenseController::class)->names('expenses');
 
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
+
+    Route::get('/statistik', [StatisticController::class, 'index'])->name('statistic');
 
     Route::resource('profil', ProfileController::class)->only(['index', 'edit', 'update', 'destroy'])->names('profile');
 

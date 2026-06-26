@@ -60,7 +60,7 @@ class Expense extends Model
         'badge_bg'     => 'bg-emerald-50',
         'badge_text'   => 'text-emerald-700',
         'badge_border' => 'border-emerald-200',
-        'icon'         => '<span class="material-symbols-outlined text-[24px]">piggy_bank</span>',
+        'icon'         => '<span class="material-symbols-outlined text-[24px]">savings</span>',
     ],
     'bills' => [
         'label'        => 'Tagihan',

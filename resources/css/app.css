@@ -4,6 +4,14 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/*
+ * Safelist warna dinamis untuk halaman Statistik.
+ * Warna-warna ini dihasilkan dari PHP (StatisticsService) via kelas Tailwind
+ * yang tidak bisa dideteksi otomatis oleh Tailwind scanner.
+ */
+@source inline("{bg,text,border}-{rose,green,blue,amber,emerald,purple,orange,pink,sky,teal,violet,slate}-{50,100,200,700,800}");
+@source inline("{bg,text}-{rose,emerald,purple,orange,pink,sky,teal,violet,amber,slate}-{600,700}");
+
 @plugin "daisyui" {
     themes: light --default;
 }
