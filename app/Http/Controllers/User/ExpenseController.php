@@ -61,6 +61,9 @@ class ExpenseController extends Controller
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $folder = storage_path('app/public/transaction/expense');
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
 
             $fileName = uniqid() . '.jpg';
             $fullPath = $folder . '/' . $fileName;
@@ -178,6 +181,9 @@ class ExpenseController extends Controller
                 Storage::disk('public')->delete($expense->image);
             }
             $folder = storage_path('app/public/transaction/expense');
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
 
             $fileName = uniqid() . '.jpg';
             $fullPath = $folder . '/' . $fileName;

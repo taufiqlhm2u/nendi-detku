@@ -61,6 +61,9 @@ class IncomeController extends Controller
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $folder = storage_path('app/public/transaction/income');
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
 
             $fileName = uniqid() . '.jpg';
             $fullPath = $folder . '/' . $fileName;
@@ -170,8 +173,13 @@ class IncomeController extends Controller
 
         $photoPath = $income->image;
         if ($request->hasFile('photo')) {
-            Storage::disk('public')->delete($income->image);
+            if ($income->image) {
+                Storage::disk('public')->delete($income->image);
+            }
             $folder = storage_path('app/public/transaction/income');
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
 
             $fileName = uniqid() . '.jpg';
             $fullPath = $folder . '/' . $fileName;

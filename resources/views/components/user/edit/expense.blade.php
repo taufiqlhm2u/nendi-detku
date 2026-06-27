@@ -43,8 +43,8 @@ new class extends Component {
         <div class="card bg-white border border-base-300/40 shadow-sm">
             <div class="card-body gap-5">
 
-                <form id="expenseForm" method="post" action="{{ route('expenses.update', $this->expense->id) }}" class="flex flex-col gap-5"
-                    enctype="multipart/form-data">
+                <form id="expenseForm" method="post" action="{{ route('expenses.update', $this->expense->id) }}"
+                    class="flex flex-col gap-5" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -254,7 +254,8 @@ new class extends Component {
                         <div x-show="!previewUrl && !existingPhotoUrl" class="relative">
                             <button type="button" @click="showMenu = !showMenu" @click.away="showMenu = false"
                                 class="btn btn-outline border-base-300 border-dashed w-full h-24 flex flex-col items-center justify-center gap-1 hover:bg-base-200 hover:border-primary/50 transition-colors">
-                                <span class="material-symbols-outlined text-[24px] text-base-content/50">add_a_photo</span>
+                                <span
+                                    class="material-symbols-outlined text-[24px] text-base-content/50">add_a_photo</span>
                                 <span class="text-sm font-medium text-base-content/70">Tambahkan Foto</span>
                             </button>
 
@@ -269,12 +270,14 @@ new class extends Component {
                                 class="absolute z-50 bottom-full left-0 right-0 mb-2 bg-base-100 rounded-xl shadow-lg border border-base-200 p-2 flex flex-col gap-1">
                                 <button type="button" @click="$refs.cameraInput.click()"
                                     class="btn btn-ghost justify-start gap-3 w-full font-normal">
-                                    <span class="material-symbols-outlined text-[20px] text-primary">photo_camera</span>
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-primary">photo_camera</span>
                                     Ambil dari Kamera
                                 </button>
                                 <button type="button" @click="$refs.galleryInput.click()"
                                     class="btn btn-ghost justify-start gap-3 w-full font-normal">
-                                    <span class="material-symbols-outlined text-[20px] text-primary">photo_library</span>
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-primary">photo_library</span>
                                     Pilih dari Galeri
                                 </button>
                             </div>
@@ -292,7 +295,8 @@ new class extends Component {
                                     <p class="text-xs text-base-content/60">Tersimpan di database</p>
                                 </div>
                                 <div class="relative">
-                                    <button type="button" @click="showMenu = !showMenu" @click.away="showMenu = false"
+                                    <button type="button" @click="showMenu = !showMenu"
+                                        @click.away="showMenu = false"
                                         class="btn btn-primary btn-sm gap-2 btn-outline">
                                         <span class="material-symbols-outlined text-[16px]">edit</span>
                                         Ubah
@@ -309,12 +313,14 @@ new class extends Component {
                                         class="absolute z-50 bottom-full right-0 mb-2 w-52 bg-base-100 rounded-xl shadow-lg border border-base-200 p-2 flex flex-col gap-1">
                                         <button type="button" @click="$refs.cameraInput.click()"
                                             class="btn btn-ghost justify-start gap-3 w-full font-normal text-sm">
-                                            <span class="material-symbols-outlined text-[18px] text-primary">photo_camera</span>
+                                            <span
+                                                class="material-symbols-outlined text-[18px] text-primary">photo_camera</span>
                                             Ambil dari Kamera
                                         </button>
                                         <button type="button" @click="$refs.galleryInput.click()"
                                             class="btn btn-ghost justify-start gap-3 w-full font-normal text-sm">
-                                            <span class="material-symbols-outlined text-[18px] text-primary">photo_library</span>
+                                            <span
+                                                class="material-symbols-outlined text-[18px] text-primary">photo_library</span>
                                             Pilih dari Galeri
                                         </button>
                                     </div>
@@ -358,7 +364,7 @@ new class extends Component {
                         <button class="btn btn-primary w-full text-base font-bold gap-2" type="submit"
                             wire:loading.attr="disabled">
                             <span wire:loading class="loading loading-spinner loading-sm"></span>
-                            <span wire:loading.remove>Ubah Pengeluaran</span>
+                            <span wire:loading.remove>Simpan Perubahan</span>
                             <span wire:loading>Mengubah...</span>
                         </button>
                     </div>
@@ -376,7 +382,7 @@ new class extends Component {
             class="btn btn-primary w-full h-12 text-md font-bold gap-2 rounded-2xl shadow-lg active:scale-95 transition-transform"
             form="expenseForm" type="submit" wire:loading.attr="disabled">
             <span wire:loading class="loading loading-spinner loading-sm"></span>
-            <span wire:loading.remove>Ubah</span>
+            <span wire:loading.remove>Simpan Perubahan</span>
             <span wire:loading>Mengubah...</span>
         </button>
     </div>

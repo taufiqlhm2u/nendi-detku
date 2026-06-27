@@ -359,7 +359,7 @@ new class extends Component {
                         <button class="btn btn-primary w-full text-base font-bold gap-2" type="submit"
                             wire:loading.attr="disabled">
                             <span wire:loading class="loading loading-spinner loading-sm"></span>
-                            <span wire:loading.remove>Ubah Pemasukan</span>
+                            <span wire:loading.remove>Simpan Perubahan</span>
                             <span wire:loading>Mengubah...</span>
                         </button>
                     </div>
@@ -377,7 +377,7 @@ new class extends Component {
             class="btn btn-primary w-full h-12 text-md font-bold gap-2 rounded-2xl shadow-lg active:scale-95 transition-transform"
             form="incomeForm" type="submit" wire:loading.attr="disabled">
             <span wire:loading class="loading loading-spinner loading-sm"></span>
-            <span wire:loading.remove>Ubah</span>
+            <span wire:loading.remove>Simpan Perubahan</span>
             <span wire:loading>Mengubah...</span>
         </button>
     </div>
