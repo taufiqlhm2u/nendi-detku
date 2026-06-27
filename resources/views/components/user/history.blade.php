@@ -130,8 +130,8 @@ new class extends Component {
     <main class="px-4 pt-4 space-y-5 max-w-xl mx-auto relative">
         {{-- Global Loading Overlay --}}
         <div wire:loading wire:target="setFilter, filterMonth, filterYear"
-            class="absolute inset-0 z-50 bg-base-100/50 backdrop-blur-sm rounded-3xl">
-            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            class="absolute inset-0 z-50 bg-base-100/50 backdrop-blur-sm rounded-3xl h-screen">
+            <div class="flex justify-center w-full h-screen items-center">
                 <span class="loading loading-spinner loading-lg text-primary"></span>
             </div>
         </div>
@@ -165,18 +165,15 @@ new class extends Component {
             </div>
 
             {{-- Tab Filter --}}
-            <div class="flex gap-1.5 w-full bg-base-200 p-1 rounded-2xl border border-base-300/30">
+            <div class="flex items-center gap-1 w-full bg-base-200 rounded-full p-0.5">
                 <button wire:click="setFilter('semua')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all
-                        {{ $filter === 'semua' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}"
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $filter === 'semua' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}"
                     id="tab-semua">Semua</button>
                 <button wire:click="setFilter('pemasukan')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all
-                        {{ $filter === 'pemasukan' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}"
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $filter === 'pemasukan' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}"
                     id="tab-pemasukan">Pemasukan</button>
                 <button wire:click="setFilter('pengeluaran')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all
-                        {{ $filter === 'pengeluaran' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}"
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $filter === 'pengeluaran' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}"
                     id="tab-pengeluaran">Pengeluaran</button>
             </div>
 

@@ -71,21 +71,17 @@ new class extends Component {
         {{-- ══════════════════════════════════════════════════ --}}
         <div class="flex flex-col gap-4 stat-fade" style="--delay:0s">
             <h1 class="text-xl font-bold tracking-tight">Statistik Keuangan</h1>
-            <div class="flex gap-2 w-full bg-base-200 p-1.5 rounded-2xl border border-base-300/30">
-
+            <div class="flex items-center gap-1 w-full bg-base-200 rounded-full p-0.5">
                 <button id="tab-harian" wire:click="setPeriod('harian')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all duration-200 border-0
-                           {{ $period === 'harian' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}">
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $period === 'harian' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
                     Harian
                 </button>
                 <button id="tab-mingguan" wire:click="setPeriod('mingguan')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all duration-200 border-0
-                           {{ $period === 'mingguan' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}">
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $period === 'mingguan' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
                     Mingguan
                 </button>
                 <button id="tab-bulanan" wire:click="setPeriod('bulanan')"
-                    class="flex-1 btn btn-sm rounded-xl transition-all duration-200 border-0
-                           {{ $period === 'bulanan' ? 'btn-primary shadow-sm' : 'btn-ghost text-[#4b5f80]' }}">
+                    class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $period === 'bulanan' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
                     Bulanan
                 </button>
             </div>

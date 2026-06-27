@@ -69,6 +69,12 @@ new class extends Component {
         <section class="flex flex-col items-center pt-2">
             <div class="relative w-28 h-28">
 
+                {{-- Loading Overlay
+                <div wire:loading wire:target="photo, saveAvatar, removeStoredPhoto" 
+                    class="absolute inset-0 z-10 flex items-center justify-center rounded-full bg-base-100/60 backdrop-blur-[1px]">
+                    <span class="loading loading-spinner loading-md text-primary"></span>
+                </div> --}}
+
                 @if ($photo)
                     <div class="w-28 h-28 rounded-full ring-2 ring-primary ring-offset-2 overflow-hidden">
                         <img alt="Preview Foto" src="{{ $photo->temporaryUrl() }}" class="w-full h-full object-cover" />
@@ -87,7 +93,8 @@ new class extends Component {
                 @endif
 
                 <button type="button" onclick="document.getElementById('photo-input').click()"
-                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center absolute bottom-0 right-0 border-2 border-white shadow active:scale-90 transition-transform">
+                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center absolute bottom-0 right-0 border-2 border-white shadow active:scale-90 transition-transform"
+                    wire:loading.attr="disabled" wire:target="photo, saveAvatar, removeStoredPhoto">
                     <span class="material-symbols-outlined text-[16px] text-white">photo_camera</span>
                 </button>
 
@@ -102,26 +109,33 @@ new class extends Component {
             @if ($photo)
                 <div class="flex gap-2 mt-4">
                     <button type="button" wire:click="saveAvatar"
-                        class="btn btn-primary btn-sm rounded-full gap-1 active:scale-95 transition-transform">
-                        <span class="material-symbols-outlined text-[14px]">check</span>
+                        class="btn btn-primary btn-sm rounded-full gap-1 active:scale-95 transition-transform"
+                        wire:loading.attr="disabled" wire:target="saveAvatar">
+                        <span wire:loading.remove wire:target="saveAvatar" class="material-symbols-outlined text-[14px]">check</span>
+                        <span wire:loading wire:target="saveAvatar" class="loading loading-spinner loading-xs"></span>
                         Simpan Foto
                     </button>
                     <button type="button" wire:click="cancelPhotoPreview"
-                        class="btn btn-ghost btn-sm rounded-full text-red-500 hover:bg-error/10 gap-1">
+                        class="btn btn-ghost btn-sm rounded-full text-red-500 hover:bg-error/10 gap-1"
+                        wire:loading.attr="disabled" wire:target="saveAvatar">
                         <span class="material-symbols-outlined text-[14px]">close</span>
                         Batal
                     </button>
                 </div>
             @elseif (auth()->user()->photo_profile && !$removePhoto)
                 <button type="button" wire:click="removeStoredPhoto"
-                    class="btn btn-ghost btn-sm text-red-500 mt-3 rounded-full hover:bg-error/10 gap-1">
-                    <span class="material-symbols-outlined text-[15px]">delete</span>
+                    class="btn btn-ghost btn-sm text-red-500 mt-3 rounded-full hover:bg-error/10 gap-1"
+                    wire:loading.attr="disabled" wire:target="removeStoredPhoto">
+                    <span wire:loading.remove wire:target="removeStoredPhoto" class="material-symbols-outlined text-[15px]">delete</span>
+                    <span wire:loading wire:target="removeStoredPhoto" class="loading loading-spinner loading-xs"></span>
                     Hapus Foto
                 </button>
             @else
                 <label for="photo-input"
-                    class="btn btn-ghost btn-sm text-primary mt-3 rounded-full cursor-pointer hover:bg-primary/10 gap-1">
-                    <span class="material-symbols-outlined text-[15px]">upload</span>
+                    class="btn btn-ghost btn-sm text-primary mt-3 rounded-full cursor-pointer hover:bg-primary/10 gap-1"
+                    wire:loading.class="opacity-50 pointer-events-none" wire:target="photo">
+                    <span wire:loading.remove wire:target="photo" class="material-symbols-outlined text-[15px]">upload</span>
+                    <span wire:loading wire:target="photo" class="loading loading-spinner loading-xs"></span>
                     Unggah Foto
                 </label>
             @endif
@@ -129,12 +143,15 @@ new class extends Component {
             @if ($removePhoto)
                 <div class="flex gap-2 mt-4">
                     <button type="button" wire:click="saveAvatar"
-                        class="btn bg-red-500 text-white btn-sm rounded-full gap-1 active:scale-95">
-                        <span class="material-symbols-outlined text-[14px]">delete</span>
+                        class="btn bg-red-500 text-white btn-sm rounded-full gap-1 active:scale-95"
+                        wire:loading.attr="disabled" wire:target="saveAvatar">
+                        <span wire:loading.remove wire:target="saveAvatar" class="material-symbols-outlined text-[14px]">delete</span>
+                        <span wire:loading wire:target="saveAvatar" class="loading loading-spinner loading-xs"></span>
                         Ya, Hapus
                     </button>
                     <button type="button" wire:click="$set('removePhoto', false)"
-                        class="btn btn-ghost btn-sm rounded-full">
+                        class="btn btn-ghost btn-sm rounded-full"
+                        wire:loading.attr="disabled" wire:target="saveAvatar">
                         Batal
                     </button>
                 </div>
