@@ -3,7 +3,7 @@
         <div class="relative w-full max-w-sm mx-auto px-4 py-8">
             
             <!-- Subtle gradient background -->
-            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 rounded-3xl -z-10"></div>
+            <div class="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5 rounded-3xl -z-10"></div>
             
             <!-- Main content -->
             <div class="flex flex-col items-center gap-8">
