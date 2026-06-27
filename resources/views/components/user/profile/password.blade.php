@@ -37,7 +37,7 @@ new class extends Component {
 <div>
     <main class="px-4 pt-6 pb-32 max-w-md mx-auto space-y-8">
         <section>
-            <form action="{{ route('password.update') }}" method="POST" class="flex flex-col gap-4">
+            <form id="passwordForm" action="{{ route('password.update') }}" method="POST" class="flex flex-col gap-4">
                 @csrf
                 @method('PUT')
 
@@ -119,13 +119,27 @@ new class extends Component {
                     @enderror
                 </div>
 
-                <div class="fixed bottom-[80px] left-0 right-0 px-4 max-w-md mx-auto z-10">
-                    <button type="submit"
-                        class="btn btn-primary w-full h-12 text-sm font-semibold rounded-xl shadow-[0_0_15px_rgba(var(--p),0.3)] active:scale-95 transition-transform">
-                        Simpan Perubahan
+                <div class="hidden md:block pt-1">
+                    <button class="btn btn-primary w-full text-base font-bold gap-2" type="submit"
+                        wire:loading.attr="disabled">
+                        <span wire:loading class="loading loading-spinner loading-sm"></span>
+                        <span wire:loading.remove>Simpan Perubahan</span>
+                        <span wire:loading>Mengubah...</span>
                     </button>
                 </div>
             </form>
+
+            {{-- Bottom Action (mobile only) --}}
+            <div
+                class="fixed bottom-0 left-0 w-full px-4 py-4 bg-base-100/80 backdrop-blur-md border-t border-base-300/30 z-50 md:hidden">
+                <button
+                    class="btn btn-primary w-full h-12 text-md font-bold gap-2 rounded-2xl shadow-lg active:scale-95 transition-transform"
+                    form="passwordForm" type="submit" wire:loading.attr="disabled">
+                    <span wire:loading class="loading loading-spinner loading-sm"></span>
+                    <span wire:loading.remove>Simpan Perubahan</span>
+                    <span wire:loading>Mengubah...</span>
+                </button>
+            </div>
         </section>
     </main>
 </div>

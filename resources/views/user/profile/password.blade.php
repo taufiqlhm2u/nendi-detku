@@ -13,8 +13,6 @@
 
         @livewire('user.profile.password')
 
-        <!-- ===== Bottom Navigation Bar ===== -->
-        <x-user-dock />
 
     </div>
 </x-layout>
