@@ -43,14 +43,14 @@ class TransactionSeeder extends Seeder
                 'type'       => 'salary',
                 'amount'     => 8_000_000,
                 'note'       => 'Gaji bulan Juni',
-                'date' => Carbon::now()->subDays(10)->setTime(8, 0),
+                'date' => Carbon::now()->subDays(40)->setTime(8, 0),
             ],
             [
                 'group'      => 'income',
                 'type'       => 'freelance',
                 'amount'     => 1_500_000,
                 'note'       => 'Proyek desain website',
-                'date' => Carbon::now()->subDays(9)->setTime(11, 30),
+                'date' => Carbon::now()->subDays(38)->setTime(11, 30),
             ],
 
             // ── Kelompok 2: 5 Pengeluaran ─────────────────────
@@ -59,14 +59,14 @@ class TransactionSeeder extends Seeder
                 'type'       => 'bills',
                 'amount'     => 150_000,
                 'note'       => 'Tagihan internet bulanan',
-                'date' => Carbon::now()->subDays(8)->setTime(9, 0),
+                'date' => Carbon::now()->subDays(36)->setTime(9, 0),
             ],
             [
                 'group'      => 'expense',
                 'type'       => 'transportation',
                 'amount'     => 50_000,
                 'note'       => 'Grab ke kantor',
-                'date' => Carbon::now()->subDays(7)->setTime(7, 45),
+                'date' => Carbon::now()->subDays(35)->setTime(7, 45),
             ],
             [
                 'group'      => 'expense',

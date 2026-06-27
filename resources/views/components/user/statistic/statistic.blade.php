@@ -15,7 +15,7 @@ new class extends Component {
     #[Computed]
     public function comparisonSummary(): array
     {
-        return app(StatisticsService::class)->getComparisonSummary(Auth::id(), $this->period);
+        return app(StatisticsService::class)->getComparisonSummary(Auth::id(), 'bulanan');
     }
 
     #[Computed]
@@ -39,7 +39,7 @@ new class extends Component {
     #[Computed]
     public function monthlyHistory(): array
     {
-        return app(StatisticsService::class)->getMonthlyHistory(Auth::id(), 6);
+        return app(StatisticsService::class)->getMonthlyHistory(Auth::id(), 12);
     }
 
     // ──────────────────────────────────────────────────────────
@@ -70,7 +70,11 @@ new class extends Component {
         {{-- 1. JUDUL + TAB TOGGLE                             --}}
         {{-- ══════════════════════════════════════════════════ --}}
         <div class="flex flex-col gap-4 stat-fade" style="--delay:0s">
-            <h1 class="text-xl font-bold tracking-tight">Statistik Keuangan</h1>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">Statistik Keuangan</h1>
+                <p class="text-xs text-[#191c21]/40 mt-0.5">Pilih periode untuk memfilter grafik & kategori</p>
+            </div>
+
             <div class="flex items-center gap-1 w-full bg-base-200 rounded-full p-0.5">
                 <button id="tab-harian" wire:click="setPeriod('harian')"
                     class="flex-1 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-all duration-200 {{ $period === 'harian' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
@@ -89,14 +93,17 @@ new class extends Component {
 
         {{-- ══════════════════════════════════════════════════ --}}
         {{-- 2. KARTU PERBANDINGAN PENGELUARAN                 --}}
+        {{-- Selalu fixed: Bulan Ini vs Bulan Lalu             --}}
         {{-- ══════════════════════════════════════════════════ --}}
         @php $cmp = $this->comparisonSummary; @endphp
 
         <div class="card bg-white border border-base-300/40 shadow-sm stat-fade" style="--delay:0.05s">
             <div class="card-body gap-3">
+
+                {{-- Header: label + nominal + badge --}}
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-xs font-semibold text-[#191c21]/50 mb-1">{{ $cmp['period_label'] }}</p>
+                        <p class="text-xs font-semibold text-[#191c21]/50 mb-1">Bulan Ini vs Bulan Lalu</p>
                         <h2 class="text-xl font-bold">
                             Rp {{ number_format($cmp['current_total'], 0, ',', '.') }}
                         </h2>
@@ -116,19 +123,22 @@ new class extends Component {
                     @endif
                 </div>
 
-                <progress class="progress progress-primary w-full" value="{{ $cmp['progress_value'] }}"
+                {{-- Progress bar --}}
+                <progress class="progress progress-error w-full" value="{{ $cmp['progress_value'] }}"
                     max="100"></progress>
 
+                {{-- Keterangan bawah --}}
                 <p class="text-xs text-[#191c21]/50 italic">
                     @if ($cmp['top_category'])
-                        Pengeluaran terbesar di kategori <span
-                            class="font-semibold text-primary">{{ $cmp['top_category'] }}</span>
-                    @elseif($cmp['current_total'] == 0)
-                        Belum ada pengeluaran pada periode ini
+                        Pengeluaran terbesar di kategori
+                        <span class="font-semibold text-primary">{{ $cmp['top_category'] }}</span>
+                    @elseif ($cmp['current_total'] == 0)
+                        Belum ada pengeluaran bulan ini
                     @else
-                        Tidak ada data pembanding dari periode sebelumnya
+                        Tidak ada data pengeluaran dari bulan lalu untuk dibandingkan
                     @endif
                 </p>
+
             </div>
         </div>
 
@@ -161,17 +171,17 @@ new class extends Component {
                         <p class="text-xs font-medium">Belum ada data</p>
                     </div>
                 @else
-                    {{-- Bar Chart — Alpine.js untuk animasi --}}
-                    <div wire:key="barchart-{{ $this->period }}" x-data="{
-                        incomeH: {{ json_encode($chart['income']) }},
-                        expenseH: {{ json_encode($chart['expense']) }},
-                        incomeRaw: {{ json_encode($chart['income_raw']) }},
-                        expenseRaw: {{ json_encode($chart['expense_raw']) }},
-                        animated: false,
-                        init() { this.$nextTick(() => setTimeout(() => this.animated = true, 60)); }
-                    }">
+                    {{-- Bar Chart --}}
+                    <div>
                         {{-- Bars --}}
-                        <div class="flex items-end justify-between h-44 gap-2 px-1">
+                        <div class="flex items-end justify-between h-44 gap-2 px-1 relative">
+                            {{-- Loading overlay saat ganti tab --}}
+                            <div wire:loading.flex wire:target="setPeriod"
+                                class="absolute inset-0 bg-white/60 backdrop-blur-sm z-10 items-center justify-center rounded-lg"
+                                style="display:none">
+                                <span class="loading loading-spinner text-primary"></span>
+                            </div>
+
                             @foreach ($chart['labels'] as $i => $label)
                                 @php
                                     $inH = $chart['income'][$i] ?? 0;
@@ -181,36 +191,31 @@ new class extends Component {
                                 @endphp
                                 <div class="flex-1 flex flex-col items-center h-full justify-end">
                                     <div class="flex gap-[3px] items-end w-full justify-center" style="height: 85%">
+
                                         {{-- Income bar --}}
-                                        <div class="relative group flex-1 flex items-end justify-center"
-                                            style="height: 100%">
-                                            <div class="w-full rounded-t-lg bg-primary bar-anim"
-                                                style="height: 0%; transition: height 0.6s cubic-bezier(.34,1.56,.64,1) {{ $i * 0.05 }}s;"
-                                                x-bind:style="animated ? 'height: {{ $inH }}%' : 'height: 0%'">
-                                            </div>
-                                            {{-- Tooltip --}}
+                                        <div tabindex="0" class="group relative flex-1 flex items-end justify-center h-full cursor-pointer focus:outline-none">
                                             @if ($inR > 0)
-                                                <div
-                                                    class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
-                                                    {{ 'Rp ' . number_format($inR, 0, ',', '.') }}
-                                                </div>
+                                                <span class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none z-20">
+                                                    Rp {{ number_format($inR, 0, ',', '.') }}
+                                                </span>
                                             @endif
+                                            <div class="w-full rounded-t-lg bg-primary transition-all duration-500"
+                                                style="height:{{ max($inH, $inR > 0 ? 4 : 0) }}%">
+                                            </div>
                                         </div>
 
                                         {{-- Expense bar --}}
-                                        <div class="relative group flex-1 flex items-end justify-center"
-                                            style="height: 100%">
-                                            <div class="w-full rounded-t-lg bg-rose-400 bar-anim"
-                                                style="height: 0%; transition: height 0.6s cubic-bezier(.34,1.56,.64,1) {{ $i * 0.05 + 0.03 }}s;"
-                                                x-bind:style="animated ? 'height: {{ $exH }}%' : 'height: 0%'">
-                                            </div>
+                                        <div tabindex="0" class="group relative flex-1 flex items-end justify-center h-full cursor-pointer focus:outline-none">
                                             @if ($exR > 0)
-                                                <div
-                                                    class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
-                                                    {{ 'Rp ' . number_format($exR, 0, ',', '.') }}
-                                                </div>
+                                                <span class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none z-20">
+                                                    Rp {{ number_format($exR, 0, ',', '.') }}
+                                                </span>
                                             @endif
+                                            <div class="w-full rounded-t-lg bg-rose-400 transition-all duration-500"
+                                                style="height:{{ max($exH, $exR > 0 ? 4 : 0) }}%">
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             @endforeach
@@ -253,7 +258,6 @@ new class extends Component {
                                 {{-- Track --}}
                                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                     fill="none" stroke="#e8eaf0" stroke-width="4" />
-
                                 {{-- Segments --}}
                                 @foreach ($categories as $cat)
                                     <path
@@ -316,7 +320,14 @@ new class extends Component {
         {{-- ══════════════════════════════════════════════════ --}}
         {{-- 5. BENTO SUMMARY CARDS (2×2)                      --}}
         {{-- ══════════════════════════════════════════════════ --}}
-        @php $cards = $this->summaryCards; @endphp
+        @php
+            $cards = $this->summaryCards;
+            $periodLabel = match ($period) {
+                'harian' => 'Hari Ini',
+                'mingguan' => 'Minggu Ini',
+                default => 'Bulan Ini',
+            };
+        @endphp
 
         <section class="stat-fade" style="--delay:0.2s">
             <h3 class="font-bold text-base mb-3">Ringkasan Keuangan</h3>
@@ -331,7 +342,7 @@ new class extends Component {
                             <p class="text-2xl font-extrabold text-white leading-none">
                                 Rp {{ number_format($cards['balance'], 0, ',', '.') }}
                             </p>
-                            <p class="text-xs text-white/50 mt-1">Saldo dompet</p>
+                            <p class="text-xs text-white/50 mt-1">Total saldo semua dompet</p>
                         </div>
                         <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
                             <span
@@ -353,24 +364,24 @@ new class extends Component {
                     </div>
                 </div>
 
-                {{-- Total Pemasukan Bulan Ini --}}
+                {{-- Total Pemasukan --}}
                 <div class="card bg-white border border-base-300/40 shadow-sm">
                     <div class="card-body p-4 gap-1">
                         <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mb-1">
                             <span class="material-symbols-outlined text-primary text-[20px]">arrow_circle_up</span>
                         </div>
-                        <p class="text-[11px] font-bold text-[#191c21]/40">Masuk Bulan Ini</p>
+                        <p class="text-[11px] font-bold text-[#191c21]/40">Masuk {{ $periodLabel }}</p>
                         <p class="text-base font-extrabold text-primary leading-tight">
                             Rp {{ number_format($cards['total_income'], 0, ',', '.') }}
                         </p>
                     </div>
                 </div>
 
-                {{-- Total Pengeluaran Bulan Ini --}}
+                {{-- Total Pengeluaran --}}
                 <div class="card col-span-2 bg-rose-50 border border-rose-200/60 shadow-sm">
                     <div class="card-body p-4 flex-row items-center justify-between">
                         <div>
-                            <p class="text-[11px] font-bold text-rose-700/60">Keluar Bulan Ini</p>
+                            <p class="text-[11px] font-bold text-rose-700/60">Keluar {{ $periodLabel }}</p>
                             <p class="text-xl font-extrabold text-rose-700 leading-tight">
                                 Rp {{ number_format($cards['total_expense'], 0, ',', '.') }}
                             </p>
@@ -380,6 +391,7 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -393,7 +405,7 @@ new class extends Component {
             <div class="card-body gap-1 p-0 overflow-hidden">
                 <div class="px-5 pt-5 pb-3 border-b border-base-300/30">
                     <h3 class="font-bold text-base">Riwayat per Bulan</h3>
-                    <p class="text-xs text-[#191c21]/40 mt-0.5">Hanya bulan dengan transaksi yang ditampilkan</p>
+                    <p class="text-xs text-[#191c21]/40 mt-0.5">Ketuk untuk melihat rincian transaksi tiap bulan</p>
                 </div>
 
                 @if (empty($history))
@@ -404,8 +416,9 @@ new class extends Component {
                 @else
                     <div class="divide-y divide-base-300/20">
                         @foreach ($history as $row)
-                            <div
-                                class="px-5 py-3.5 {{ $row['is_current'] ? 'bg-primary/5' : '' }} hover:bg-base-100/60 transition-colors">
+                            @php [$rowYear, $rowMonth] = explode('-', $row['month_key']); @endphp
+                            <a href="{{ route('statistic.show', ['year' => $rowYear, 'month' => $rowMonth]) }}"
+                                class="block px-5 py-3.5 {{ $row['is_current'] ? 'bg-primary/5' : '' }} hover:bg-base-100/60 active:bg-base-200/60 transition-colors">
 
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="flex items-center gap-2">
@@ -419,13 +432,17 @@ new class extends Component {
                                         @endif
                                     </div>
 
-                                    @if ($row['delta_pct'] != 0)
+                                    <div class="flex items-center gap-2">
+                                        @if ($row['delta_pct'] != 0)
+                                            <span
+                                                class="text-xs font-bold px-1.5 py-0.5 rounded-lg
+                                                {{ $row['delta_pct'] > 0 ? 'text-rose-700 bg-rose-100' : 'text-emerald-700 bg-emerald-100' }}">
+                                                {{ $row['delta_pct'] > 0 ? '+' : '' }}{{ $row['delta_pct'] }}%
+                                            </span>
+                                        @endif
                                         <span
-                                            class="text-xs font-bold px-1.5 py-0.5 rounded-lg
-                                            {{ $row['delta_pct'] > 0 ? 'text-rose-700 bg-rose-100' : 'text-emerald-700 bg-emerald-100' }}">
-                                            {{ $row['delta_pct'] > 0 ? '+' : '' }}{{ $row['delta_pct'] }}%
-                                        </span>
-                                    @endif
+                                            class="material-symbols-outlined text-[16px] text-[#191c21]/30">chevron_right</span>
+                                    </div>
                                 </div>
 
                                 {{-- Bar ganda: income (biru) & expense (rose) --}}
@@ -462,7 +479,7 @@ new class extends Component {
                                         </div>
                                     @endif
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 @endif

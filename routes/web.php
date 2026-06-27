@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'store'])->name('login.verif');
+    Route::post('/login', [LoginController::class, 'store'])->name('login.verif')->middleware('throttle:5,3');
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
 
     Route::get('/statistik', [StatisticController::class, 'index'])->name('statistic');
+
+    Route::get('/statistik/{year}/{month}', [StatisticController::class, 'show'])->name('statistic.show')
+        ->where(['year' => '[0-9]{4}', 'month' => '[0-9]{1,2}']);
 
     Route::resource('profil', ProfileController::class)->only(['index', 'edit', 'update', 'destroy'])->names('profile');
 

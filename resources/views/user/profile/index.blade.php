@@ -72,7 +72,7 @@
 
                 <!-- Version -->
                 <p class="text-center text-[11px] tracking-widest uppercase text-[#1d1d1f]/25 font-medium pt-2 pb-4">
-                    Versi 1.0.0
+                    Versi {{ config('app.version') }}
                 </p>
 
             </div>

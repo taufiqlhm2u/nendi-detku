@@ -14,30 +14,46 @@ class StatisticsService
     // PRIVATE HELPERS
     // ──────────────────────────────────────────────────────────
 
+    private function getRefDate(?int $month, ?int $year): Carbon
+    {
+        if ($month && $year) {
+            return Carbon::create($year, $month, 1);
+        }
+        return Carbon::now();
+    }
+
+    private function isCurrentMonth(Carbon $date): bool
+    {
+        return $date->format('Y-m') === Carbon::now()->format('Y-m');
+    }
+
     /**
      * Kembalikan rentang tanggal [currentStart, currentEnd, prevStart, prevEnd]
      * berdasarkan period: 'harian' | 'mingguan' | 'bulanan'
      */
-    private function getPeriodRange(string $period): array
+    private function getPeriodRange(string $period, ?int $month = null, ?int $year = null): array
     {
+        $refDate = $this->getRefDate($month, $year);
+        $isCurrent = $this->isCurrentMonth($refDate);
+
         return match ($period) {
             'harian' => [
-                Carbon::today()->startOfDay(),
-                Carbon::today()->endOfDay(),
-                Carbon::yesterday()->startOfDay(),
-                Carbon::yesterday()->endOfDay(),
+                $isCurrent ? Carbon::today()->startOfDay() : $refDate->copy()->endOfMonth()->startOfDay(),
+                $isCurrent ? Carbon::today()->endOfDay() : $refDate->copy()->endOfMonth()->endOfDay(),
+                $isCurrent ? Carbon::yesterday()->startOfDay() : $refDate->copy()->endOfMonth()->subDay()->startOfDay(),
+                $isCurrent ? Carbon::yesterday()->endOfDay() : $refDate->copy()->endOfMonth()->subDay()->endOfDay(),
             ],
             'mingguan' => [
-                Carbon::now()->startOfWeek(Carbon::MONDAY),
-                Carbon::now()->endOfWeek(Carbon::SUNDAY),
-                Carbon::now()->subWeek()->startOfWeek(Carbon::MONDAY),
-                Carbon::now()->subWeek()->endOfWeek(Carbon::SUNDAY),
+                $isCurrent ? Carbon::now()->startOfWeek(Carbon::MONDAY) : $refDate->copy()->endOfMonth()->startOfWeek(Carbon::MONDAY),
+                $isCurrent ? Carbon::now()->endOfWeek(Carbon::SUNDAY) : $refDate->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY),
+                $isCurrent ? Carbon::now()->subWeek()->startOfWeek(Carbon::MONDAY) : $refDate->copy()->endOfMonth()->subWeek()->startOfWeek(Carbon::MONDAY),
+                $isCurrent ? Carbon::now()->subWeek()->endOfWeek(Carbon::SUNDAY) : $refDate->copy()->endOfMonth()->subWeek()->endOfWeek(Carbon::SUNDAY),
             ],
             default => [
-                Carbon::now()->startOfMonth(),
-                Carbon::now()->endOfMonth(),
-                Carbon::now()->subMonthNoOverflow()->startOfMonth(),
-                Carbon::now()->subMonthNoOverflow()->endOfMonth(),
+                $refDate->copy()->startOfMonth(),
+                $refDate->copy()->endOfMonth(),
+                $refDate->copy()->subMonthNoOverflow()->startOfMonth(),
+                $refDate->copy()->subMonthNoOverflow()->endOfMonth(),
             ],
         };
     }
@@ -88,9 +104,12 @@ class StatisticsService
      *   progress_value: int
      * }
      */
-    public function getComparisonSummary(int $userId, string $period): array
+    public function getComparisonSummary(int $userId, string $period, ?int $month = null, ?int $year = null): array
     {
-        [$currentStart, $currentEnd, $prevStart, $prevEnd] = $this->getPeriodRange($period);
+        $refDate = $this->getRefDate($month, $year);
+        $isCurrent = $this->isCurrentMonth($refDate);
+
+        [$currentStart, $currentEnd, $prevStart, $prevEnd] = $this->getPeriodRange($period, $month, $year);
 
         $currentExpense = (float) Expense::where('user_id', $userId)
             ->whereBetween('date', [$currentStart->toDateString(), $currentEnd->toDateString()])
@@ -126,9 +145,9 @@ class StatisticsService
         }
 
         $periodLabel = match ($period) {
-            'harian'   => 'Hari Ini vs Kemarin',
-            'mingguan' => 'Minggu Ini vs Minggu Lalu',
-            default    => 'Bulan Ini vs Bulan Lalu',
+            'harian'   => $isCurrent ? 'Hari Ini vs Kemarin' : 'Akhir Bulan vs H-1',
+            'mingguan' => $isCurrent ? 'Minggu Ini vs Minggu Lalu' : 'Minggu Terakhir vs Sebelumnya',
+            default    => $isCurrent ? 'Bulan Ini vs Bulan Lalu' : 'Bulan Terpilih vs Bulan Lalu',
         };
 
         return [
@@ -154,15 +173,21 @@ class StatisticsService
      *   expense_raw: float[]
      * }
      */
-    public function getCashFlowChartData(int $userId, string $period): array
+    public function getCashFlowChartData(int $userId, string $period, ?int $month = null, ?int $year = null): array
     {
+        $refDate = $this->getRefDate($month, $year);
+        $isCurrent = $this->isCurrentMonth($refDate);
+
         $labels      = [];
         $incomeRaw   = [];
         $expenseRaw  = [];
 
         if ($period === 'harian') {
             // Sen–Min dari minggu berjalan
-            $startOfWeek = Carbon::now()->startOfWeek(Carbon::MONDAY);
+            $startOfWeek = $isCurrent 
+                ? Carbon::now()->startOfWeek(Carbon::MONDAY)
+                : $refDate->copy()->endOfMonth()->startOfWeek(Carbon::MONDAY);
+            
             $dayNames    = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
             for ($i = 0; $i < 7; $i++) {
@@ -175,8 +200,8 @@ class StatisticsService
             }
         } elseif ($period === 'mingguan') {
             // Minggu-minggu dalam bulan berjalan
-            $startOfMonth = Carbon::now()->startOfMonth();
-            $endOfMonth   = Carbon::now()->endOfMonth();
+            $startOfMonth = $refDate->copy()->startOfMonth();
+            $endOfMonth   = $refDate->copy()->endOfMonth();
             $week         = $startOfMonth->copy()->startOfWeek(Carbon::MONDAY);
             $weekNum      = 1;
 
@@ -195,7 +220,7 @@ class StatisticsService
             }
         } else {
             // Bulanan: ambil dari monthlyHistory (hanya bulan yang ada data)
-            $history = $this->getMonthlyHistory($userId, 6);
+            $history = $this->getMonthlyHistory($userId, 6, $month, $year);
             foreach ($history as $row) {
                 $labels[]     = $row['month_name_short'];
                 $incomeRaw[]  = $row['total_income'];
@@ -232,9 +257,9 @@ class StatisticsService
      *   stroke_color: string
      * }>
      */
-    public function getCategoryBreakdown(int $userId, string $period): array
+    public function getCategoryBreakdown(int $userId, string $period, ?int $month = null, ?int $year = null): array
     {
-        [$currentStart, $currentEnd] = $this->getPeriodRange($period);
+        [$currentStart, $currentEnd] = $this->getPeriodRange($period, $month, $year);
 
         $expenses = Expense::where('user_id', $userId)
             ->whereBetween('date', [$currentStart->toDateString(), $currentEnd->toDateString()])
@@ -279,13 +304,15 @@ class StatisticsService
      *
      * @return array{balance: float, savings: float, total_income: float, total_expense: float}
      */
-    public function getSummaryCards(int $userId): array
+    public function getSummaryCards(int $userId, ?int $month = null, ?int $year = null): array
     {
+        $refDate = $this->getRefDate($month, $year);
+
         $wallet     = Wallet::where('user_id', $userId)->first();
         $balance    = $wallet ? (float) $wallet->balance : 0.0;
 
-        $monthStart = Carbon::now()->startOfMonth()->toDateString();
-        $monthEnd   = Carbon::now()->endOfMonth()->toDateString();
+        $monthStart = $refDate->copy()->startOfMonth()->toDateString();
+        $monthEnd   = $refDate->copy()->endOfMonth()->toDateString();
 
         $totalIncome = (float) Income::where('user_id', $userId)
             ->whereBetween('date', [$monthStart, $monthEnd])
@@ -305,6 +332,7 @@ class StatisticsService
             'savings'       => $totalSavings,
             'total_income'  => $totalIncome,
             'total_expense' => $totalExpense,
+            'month_label'   => $this->isCurrentMonth($refDate) ? 'Bulan Ini' : 'Bulan ' . $refDate->translatedFormat('F'),
         ];
     }
 
@@ -325,13 +353,16 @@ class StatisticsService
      *   expense_bar: int
      * }>
      */
-    public function getMonthlyHistory(int $userId, int $months = 6): array
+    public function getMonthlyHistory(int $userId, int $months = 6, ?int $month = null, ?int $year = null): array
     {
-        $since = Carbon::now()->subMonths($months - 1)->startOfMonth()->toDateString();
+        $refDate = $this->getRefDate($month, $year);
+        $since = $refDate->copy()->subMonths($months - 1)->startOfMonth()->toDateString();
+        $until = $refDate->copy()->endOfMonth()->toDateString();
 
         // Pemasukan per bulan
         $incomes = Income::where('user_id', $userId)
             ->where('date', '>=', $since)
+            ->where('date', '<=', $until)
             ->get();
 
         $incomeByMonth = $incomes->groupBy(function ($item) {
@@ -343,6 +374,7 @@ class StatisticsService
         // Pengeluaran per bulan
         $expenses = Expense::where('user_id', $userId)
             ->where('date', '>=', $since)
+            ->where('date', '<=', $until)
             ->get();
 
         $expenseByMonth = $expenses->groupBy(function ($item) {
@@ -368,7 +400,7 @@ class StatisticsService
             '07' => 'Jul', '08' => 'Agu', '09' => 'Sep',
             '10' => 'Okt', '11' => 'Nov', '12' => 'Des',
         ];
-        $currentKey = Carbon::now()->format('Y-m');
+        $currentKey = $refDate->format('Y-m');
 
         // Hitung max untuk bar chart proporsional
         $maxValue = 1.0;

@@ -228,7 +228,7 @@ new class extends Component {
                 <h2 class="text-3xl font-extrabold text-base-content mb-5 tracking-tight">
                     Rp {{ number_format($balance, 0, ',', '.') }}
                 </h2>
-{{-- balance tetap pakai number_format karena bukan dari model langsung --}}
+                {{-- balance tetap pakai number_format karena bukan dari model langsung --}}
 
                 <div class="flex items-center gap-3">
                     {{-- Pemasukan --}}
@@ -243,7 +243,7 @@ new class extends Component {
                         <span class="material-symbols-outlined text-[16px]">trending_down</span>
                         Rp {{ number_format($totalExpense, 0, ',', '.') }}
                     </div>
-{{-- totalIncome & totalExpense = agregasi DB (bukan instance model), tetap pakai number_format --}}
+                    {{-- totalIncome & totalExpense = agregasi DB (bukan instance model), tetap pakai number_format --}}
                 </div>
             </div>
         </section>
@@ -300,13 +300,13 @@ new class extends Component {
                             $pct = $chartMax > 0 ? round(($amount / $chartMax) * 100) : 0;
                             $isToday = $i === $todayIndex;
                         @endphp
-                        <div class="group relative flex flex-col items-center w-full h-full justify-end">
+                        <div tabindex="0" class="group relative flex flex-col items-center w-full h-full justify-end cursor-pointer focus:outline-none">
                             {{-- Tooltip --}}
                             <span
-                                class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none z-20">
                                 Rp {{ number_format($amount, 0, ',', '.') }}
                             </span>
-{{-- $amount pada chart = integer mentah dari aggregasi, bukan instance model --}}
+                            {{-- $amount pada chart = integer mentah dari aggregasi, bukan instance model --}}
                             <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-200' }}"
                                 style="height:{{ max($pct, $amount > 0 ? 4 : ($isToday ? 3 : 0)) }}%">
                             </div>
