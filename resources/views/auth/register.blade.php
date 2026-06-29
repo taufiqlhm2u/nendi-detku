@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-extrabold text-base-content">Nendi Detku</h1>
+                            <h1 class="text-2xl font-extrabold text-primary">Nendi Detku</h1>
                             <p class="text-sm text-base-content/60 mt-0.5">Mulai perjalanan finansial Anda hari ini</p>
                         </div>
                     </div>
