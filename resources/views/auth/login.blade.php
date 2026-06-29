@@ -7,22 +7,22 @@
 
         <main class="w-full max-w-md z-10 flex flex-col gap-5">
 
-            <!-- Brand -->
-            <div class="flex flex-col items-center text-center gap-3">
-                <div class="avatar placeholder">
-                    <div class="w-16 rounded-xl shadow-lg flex items-center justify-center">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo">
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-extrabold text-primary tracking-tight">Nendi Detku</h1>
-                    <p class="text-sm text-base-content/60 mt-0.5">Kelola keuangan Anda dengan bijak</p>
-                </div>
-            </div>
-
             <!-- Card -->
             <div class="card bg-white shadow-xl border border-base-300/30">
                 <div class="card-body gap-5">
+                    <!-- Brand -->
+                    <div class="flex flex-col items-center text-center gap-3">
+                        <div class="avatar placeholder">
+                            <div class="w-16 rounded-xl shadow-lg flex items-center justify-center">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo">
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-extrabold text-primary tracking-tight">Nendi Detku</h1>
+                            <p class="text-sm text-base-content/60 mt-0.5">Kelola keuangan Anda dengan bijak</p>
+                        </div>
+                    </div>
+                    
                     <h2 class="card-title text-xl font-bold">Masuk ke Akun</h2>
 
                     <form method="POST" action="{{ route('login.verif') }}" class="flex flex-col gap-4">
@@ -31,11 +31,14 @@
                         <!-- Email -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="email">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
                             </label>
-                            <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
+                            <label
+                                class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
                                 <span class="material-symbols-outlined text-[18px] opacity-40">mail</span>
-                                <input class="w-full bg-transparent outline-none" id="email" name="email" type="email" placeholder="nama@email.com" value="{{ old('email') }}" autofocus />
+                                <input class="w-full bg-transparent outline-none" id="email" name="email"
+                                    type="email" placeholder="nama@email.com" value="{{ old('email') }}" autofocus />
                             </label>
                             @error('email')
                                 <p class="text-xs text-error mt-1">{{ $message }}</p>
@@ -45,18 +48,23 @@
                         <!-- Password dengan toggle mata di dalam input -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Kata Sandi</span>
+                                <span
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Kata
+                                    Sandi</span>
                             </label>
                             <div class="relative flex items-center">
-                                <label class="input input-bordered w-full flex items-center gap-2 pr-10 focus-within:input-primary @error('password') input-error @enderror">
+                                <label
+                                    class="input input-bordered w-full flex items-center gap-2 pr-10 focus-within:input-primary @error('password') input-error @enderror">
                                     <span class="material-symbols-outlined text-[18px] opacity-40">lock</span>
-                                    <input class="w-full bg-transparent outline-none" id="password" name="password" type="password" placeholder="••••••••" />
+                                    <input class="w-full bg-transparent outline-none" id="password" name="password"
+                                        type="password" placeholder="••••••••" />
                                 </label>
                                 <button type="button"
                                     class="toggle-password absolute right-3 flex items-center text-base-content/60 hover:text-primary transition-colors"
                                     data-target="password">
                                     <span class="eye-icon material-symbols-outlined text-[20px]">visibility</span>
-                                    <span class="eye-slash-icon material-symbols-outlined text-[20px] hidden">visibility_off</span>
+                                    <span
+                                        class="eye-slash-icon material-symbols-outlined text-[20px] hidden">visibility_off</span>
                                 </button>
                             </div>
                             @error('password')
