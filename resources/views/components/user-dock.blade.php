@@ -27,11 +27,11 @@
 
         <!-- Statistik -->
         <a href="{{ route('statistic') }}"
-            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('statistic*') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
+            class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('statistic') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
             <span class="material-symbols-outlined text-[26px]"
-                style="{{ request()->routeIs('statistik') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">donut_large</span>
+                style="{{ request()->routeIs('statistic') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">donut_large</span>
             <span
-                class="text-xs {{ request()->routeIs('statistik') ? 'font-semibold' : 'font-medium' }}">Statistik</span>
+                class="text-xs {{ request()->routeIs('statistic') ? 'font-semibold' : 'font-medium' }}">Statistik</span>
         </a>
 
         <!-- Profil -->
