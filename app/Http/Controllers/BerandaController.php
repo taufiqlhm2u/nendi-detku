@@ -11,6 +11,10 @@ class BerandaController extends Controller
     {
         if (Auth::user()->role == 'user') {
             return view('user.index');
+        }elseif(Auth::user()->role == 'admin'){
+            return view('admin.index');
+        } else {
+            abort(404);
         }
     }
 }

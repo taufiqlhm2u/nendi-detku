@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -43,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/ubah-password', [ProfileController::class, 'editPassword'])->name('password');
 
     Route::put('/ubah-password', [ProfileController::class, 'updatePassword'])->name('password.update');
+
+    // route untuk fitur khusus admin
+    Route::resource('admin/user', UserController::class)->names('admin.user');
+    Route::resource('admin/transaksi', TransactionController::class)->names('admin.transaction');
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
