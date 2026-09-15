@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\User\BerandaController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\User\ExpenseController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\IncomeController;

@@ -21,7 +21,7 @@
 
                 <!-- Akun Section -->
                 <div>
-                    <p class="text-xs font-medium text-[#1d1d1f]/40 uppercase tracking-wider px-1 mb-2">Akun</p>
+                    <p class="text-xs font-medium text-[#1d1d1f]/40 tracking-wider px-1 mb-2">Akun</p>
                     <div class="rounded-2xl bg-white overflow-hidden shadow-sm">
                         <a href="{{ route('profile.edit', $user->id) }}"
                             class="flex items-center justify-between px-5 py-4 active:bg-[#f5f5f7] transition-colors">
@@ -38,7 +38,7 @@
 
                 <!-- Keamanan Section -->
                 <div>
-                    <p class="text-xs font-medium text-[#1d1d1f]/40 uppercase tracking-wider px-1 mb-2">Keamanan</p>
+                    <p class="text-xs font-medium text-[#1d1d1f]/40 tracking-wider px-1 mb-2">Keamanan</p>
                     <div class="rounded-2xl bg-white overflow-hidden shadow-sm">
                         <a href="{{ route('password') }}"
                             class="flex items-center justify-between px-5 py-4 active:bg-[#f5f5f7] transition-colors">
@@ -55,7 +55,7 @@
 
                 <!-- Lainnya Section -->
                 <div>
-                    <p class="text-xs font-medium text-[#1d1d1f]/40 uppercase tracking-wider px-1 mb-2">Lainnya</p>
+                    <p class="text-xs font-medium text-[#1d1d1f]/40 tracking-wider px-1 mb-2">Lainnya</p>
                     <div class="rounded-2xl bg-white overflow-hidden shadow-sm">
                         <button onclick="logout_modal.showModal()"
                             class="flex items-center justify-between px-5 py-4 w-full active:bg-red-50 transition-colors">

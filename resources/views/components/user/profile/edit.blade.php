@@ -164,7 +164,7 @@ new class extends Component {
 
         {{-- ===== Form Profil ===== --}}
         <section>
-            <p class="text-xs font-bold tracking-widest uppercase text-base-content/40 mb-4">Informasi Akun</p>
+            <p class="text-xs font-bold tracking-widest text-base-content/40 mb-4">Informasi Akun</p>
 
             <form action="{{ route('profile.update', auth()->id()) }}" method="POST" class="flex flex-col gap-4"
                 novalidate>
@@ -174,7 +174,7 @@ new class extends Component {
                 {{-- Nama Lengkap --}}
                 <div class="form-control gap-1">
                     <label class="label py-0" for="name">
-                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Nama Lengkap</span>
+                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60">Nama Lengkap</span>
                     </label>
                     <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('name') input-error @enderror">
                         <span class="material-symbols-outlined text-[18px] opacity-40">person</span>
@@ -190,7 +190,7 @@ new class extends Component {
                 {{-- Email --}}
                 <div class="form-control gap-1">
                     <label class="label py-0" for="email">
-                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                        <span class="label-text text-xs font-semibold tracking-wide text-base-content/60">Email</span>
                     </label>
                     <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
                         <span class="material-symbols-outlined text-[18px] opacity-40">mail</span>
@@ -211,7 +211,7 @@ new class extends Component {
 
         {{-- ===== Danger Zone ===== --}}
         <section class="border border-red-600/20 rounded-2xl p-5 bg-red-600/5">
-            <p class="text-xs font-bold tracking-widest uppercase text-red-600/60 mb-1">Danger Zone</p>
+            <p class="text-xs font-bold tracking-widest text-red-600/60 mb-1">Danger Zone</p>
             <p class="text-sm text-base-content/50 mb-4">
                 Menghapus akun bersifat permanen dan tidak dapat dipulihkan. Seluruh data transaksi Anda akan ikut
                 terhapus.

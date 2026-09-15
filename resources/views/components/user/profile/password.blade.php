@@ -45,7 +45,7 @@ new class extends Component {
                 <div class="form-control gap-1">
                     <label class="label py-0" for="old_password">
                         <span
-                            class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Password
+                            class="label-text text-xs font-semibold tracking-wide text-base-content/60">Password
                             Lama</span>
                     </label>
                     <div class="relative flex items-center">
@@ -71,7 +71,7 @@ new class extends Component {
                 <div class="form-control gap-1">
                     <label class="label py-0" for="new_password">
                         <span
-                            class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Password
+                            class="label-text text-xs font-semibold tracking-wide text-base-content/60">Password
                             Baru</span>
                     </label>
                     <div class="relative flex items-center">
@@ -97,7 +97,7 @@ new class extends Component {
                 <div class="form-control gap-1">
                     <label class="label py-0" for="new_password_confirmation">
                         <span
-                            class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Konfirmasi
+                            class="label-text text-xs font-semibold tracking-wide text-base-content/60">Konfirmasi
                             Password Baru</span>
                     </label>
                     <div class="relative flex items-center">
