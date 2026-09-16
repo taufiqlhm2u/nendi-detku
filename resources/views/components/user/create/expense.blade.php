@@ -67,7 +67,7 @@ new class extends Component {
                     }">
                         <label class="label py-0" for="amount_display">
                             <span
-                                class="label-text text-xs font-bold tracking-widest uppercase text-base-content/60">Jumlah</span>
+                                class="label-text text-xs font-bold tracking-widest  text-base-content/60">Jumlah</span>
                         </label>
 
                         <div class="relative flex items-center">
@@ -95,7 +95,7 @@ new class extends Component {
                         <div class="form-control gap-1">
                             <label class="label py-0" for="tipe">
                                 <span
-                                    class="label-text text-xs font-bold tracking-widest uppercase text-base-content/60">Tipe</span>
+                                    class="label-text text-xs font-bold tracking-widest  text-base-content/60">Tipe</span>
                             </label>
                             <select wire:model="type"
                                 class="select select-bordered focus:select-primary w-full @error('type') select-error @enderror"
@@ -118,7 +118,7 @@ new class extends Component {
                         <div class="form-control gap-1">
                             <label class="label py-0" for="date">
                                 <span
-                                    class="label-text text-xs font-bold tracking-widest uppercase text-base-content/60">Tanggal
+                                    class="label-text text-xs font-bold tracking-widest  text-base-content/60">Tanggal
                                     Transaksi</span>
                             </label>
                             <input wire:model="date" name="date" id="date" type="date"
@@ -133,7 +133,7 @@ new class extends Component {
                     <div class="form-control gap-1">
                         <label class="label py-0" for="note">
                             <span
-                                class="label-text text-xs font-bold tracking-widest uppercase text-base-content/60">Keterangan</span>
+                                class="label-text text-xs font-bold tracking-widest  text-base-content/60">Keterangan</span>
                         </label>
                         <textarea wire:model="note" name="note" id="note" rows="3" placeholder="Tambahkan catatan (opsional)..."
                             class="textarea textarea-bordered focus:textarea-primary w-full resize-none @error('note') textarea-error @enderror"></textarea>
@@ -235,7 +235,7 @@ new class extends Component {
 
                         <label class="label py-0">
                             <span
-                                class="label-text text-xs font-bold tracking-widest uppercase text-base-content/60">Bukti
+                                class="label-text text-xs font-bold tracking-widest  text-base-content/60">Bukti
                                 Pengeluaran (Opsional)</span>
                         </label>
 

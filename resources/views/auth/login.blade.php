@@ -32,7 +32,7 @@
                         <div class="form-control gap-1">
                             <label class="label py-0" for="email">
                                 <span
-                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Email</span>
                             </label>
                             <label
                                 class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
@@ -49,7 +49,7 @@
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password">
                                 <span
-                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Kata
+                                    class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Kata
                                     Sandi</span>
                             </label>
                             <div class="relative flex items-center">

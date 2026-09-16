@@ -34,7 +34,7 @@
                         <!-- Nama Lengkap -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="name">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Nama Lengkap</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Nama Lengkap</span>
                             </label>
                             <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('name') input-error @enderror">
                                 <span class="material-symbols-outlined text-[18px] opacity-40">person</span>
@@ -48,7 +48,7 @@
                         <!-- Email -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="email">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Email</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Email</span>
                             </label>
                             <label class="input input-bordered w-full flex items-center gap-2 focus-within:input-primary @error('email') input-error @enderror">
                                 <span class="material-symbols-outlined text-[18px] opacity-40">mail</span>
@@ -62,7 +62,7 @@
                         <!-- Password dengan icon mata -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Password</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Password</span>
                             </label>
                             <div class="relative flex items-center">
                                 <label class="input input-bordered w-full flex items-center gap-2 pr-10 focus-within:input-primary @error('password') input-error @enderror">
@@ -84,7 +84,7 @@
                         <!-- Konfirmasi Password dengan icon mata -->
                         <div class="form-control gap-1">
                             <label class="label py-0" for="password_confirmation">
-                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 uppercase">Konfirmasi Password</span>
+                                <span class="label-text text-xs font-semibold tracking-wide text-base-content/60 ">Konfirmasi Password</span>
                             </label>
                             <div class="relative flex items-center">
                                 <label class="input input-bordered w-full flex items-center gap-2 pr-10 focus-within:input-primary @error('password_confirmation') input-error @enderror">
