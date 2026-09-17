@@ -21,7 +21,7 @@
         <a href="{{ route('admin.transaction.index') }}"
             class="flex flex-col items-center justify-center gap-1 px-3 py-1 transition-colors {{ request()->routeIs('admin.transaction**') ? 'text-primary' : 'text-base-content/50 hover:text-primary' }}">
             <span class="material-symbols-outlined text-[26px]"
-                style="{{ request()->routeIs('admin.transaction*') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">credit_card</span>
+                style="{{ request()->routeIs('admin.transaction*') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">inbox</span>
             <span
                 class="text-xs {{ request()->routeIs('admin.transaction*') ? 'font-semibold' : 'font-medium' }}">Transaksi</span>
         </a>
