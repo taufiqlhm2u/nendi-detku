@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/ubah-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
     // route untuk fitur khusus admin
-    Route::resource('admin/user', UserController::class)->names('admin.user');
-    Route::resource('admin/transaksi', TransactionController::class)->names('admin.transaction');
+    Route::resource('admin/user', UserController::class)->names('admin.user')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('admin/transaksi', TransactionController::class)->names('admin.transaction')->only(['index']);
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
