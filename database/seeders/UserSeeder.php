@@ -17,15 +17,15 @@ class UserSeeder extends Seeder
         $faker = Faker::create('id_ID');
         User::create([
             'name' => $faker->name,
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('password'),
+            'email' => 'joh@ya.com',
+            'password' => Hash::make('yaapaya'),
             'role' => 'admin'
         ]);
 
-        User::create([
-            'name' => $faker->name,
-            'email' => 'pass@mail.com',
-            'password' => Hash::make('password'),
-        ]);
+        // User::create([
+        //     'name' => $faker->name,
+        //     'email' => 'pass@mail.com',
+        //     'password' => Hash::make('password'),
+        // ]);
     }
 }
