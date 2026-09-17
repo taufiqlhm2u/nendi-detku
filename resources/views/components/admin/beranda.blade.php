@@ -9,54 +9,24 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 new class extends Component {
-    public string $period = 'daily';
-
-    /**
-     * Live polling: refresh data setiap 30 detik otomatis.
-     *
-     * CATATAN ASUMSI (sesuaikan dengan struktur project kamu):
-     * - Halaman ini diasumsikan sudah dilindungi middleware admin
-     *   (mis. 'auth', 'can:admin' / role check) di route definition,
-     *   BUKAN di dalam komponen ini.
-     * - Model User diasumsikan punya kolom 'name' dan 'created_at'.
-     * - Route 'admin.users.show' & 'admin.transactions.index' diasumsikan
-     *   ada. Kalau belum, tinggal ganti/hapus route() di bawah.
-     */
 
     public function with(): array
     {
-        [$startDate, $labels, $groupFormat] = match ($this->period) {
-            'weekly' => [
-                Carbon::now()->startOfMonth(),
-                $this->buildWeeklyLabels(),
-                'W-Y',
-            ],
-            'monthly' => [
-                $this->firstTransactionMonth(),
-                $this->buildMonthlyLabels(),
-                'Y-m',
-            ],
-            default => [
-                Carbon::now()->startOfWeek(Carbon::MONDAY),
-                ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-                'N',
-            ],
-        };
-
-        $chartData = $this->buildChartData($this->period, $startDate, $labels, $groupFormat);
+        $userId = Auth::id();
 
         // ── Statistik ringkas sistem (semua user, bukan per-user) ──
-        $totalUsers = User::count();
-        $newUsersToday = User::whereDate('created_at', Carbon::today())->count();
-        $totalBalance = (float) Wallet::sum('balance');
-        $totalIncome = (float) Income::sum('amount');
-        $totalExpense = (float) Expense::sum('amount');
+        $totalUsers = User::where('id', '!=', $userId)->count();
+        $newUsersToday = User::where('id', '!=', $userId)->whereDate('created_at', Carbon::today())->count();
+        $totalBalance = (float) Wallet::where('user_id', '!=', $userId)->sum('balance');
+        $totalIncome = (float) Income::where('user_id', '!=', $userId)->sum('amount');
+        $totalExpense = (float) Expense::where('user_id', '!=', $userId)->sum('amount');
 
         // ── User terbaru daftar ──
-        $latestUsers = User::orderByDesc('created_at')->limit(5)->get();
+        $latestUsers = User::where('id', '!=', $userId)->orderByDesc('created_at')->limit(5)->get();
 
         // ── Transaksi terakhir lintas semua user ──
         $incomes = Income::with('user')
+            ->where('user_id', '!=', $userId)
             ->orderByDesc('date')
             ->limit(10)
             ->get()
@@ -74,6 +44,7 @@ new class extends Component {
             );
 
         $expenses = Expense::with('user')
+            ->where('user_id', '!=', $userId)
             ->orderByDesc('date')
             ->limit(10)
             ->get()
@@ -107,111 +78,7 @@ new class extends Component {
             'totalExpense',
             'latestUsers',
             'transactions',
-            'chartData',
         );
-    }
-
-    // ──────────────────────────────────────────────────────────
-    // Helpers: chart (pengeluaran sistem, bukan per-user)
-    // ──────────────────────────────────────────────────────────
-
-    private function buildChartData(string $period, Carbon $startDate, array $labels, string $groupFormat): array
-    {
-        $endDate = match ($period) {
-            'monthly' => Carbon::now()->endOfMonth(),
-            'weekly' => Carbon::now()->endOfMonth(),
-            default => Carbon::now()->endOfWeek(Carbon::SUNDAY),
-        };
-
-        $rawExpenses = Expense::whereBetween('created_at', [$startDate, $endDate])->get();
-
-        $grouped = $rawExpenses->groupBy(fn($e) => $e->created_at->format($groupFormat));
-
-        if ($period === 'daily') {
-            $data = collect(range(1, 7))->map(fn($d) => (int) ($grouped->get((string) $d)?->sum('amount') ?? 0));
-            $displayLabels = collect($labels);
-        } else {
-            $keys = collect($labels)->pluck('key');
-            $data = $keys->map(fn($k) => (int) ($grouped->get($k)?->sum('amount') ?? 0));
-            $displayLabels = collect($labels)->pluck('display');
-        }
-
-        $max = $data->max() ?: 1;
-
-        $todayIndex = match ($period) {
-            'daily' => (int) Carbon::now()->format('N') - 1,
-            'weekly' => (int) (collect($labels)
-                ->pluck('key')
-                ->search(Carbon::now()->format('W') . '-' . Carbon::now()->format('Y')) ?? 0),
-            'monthly' => (int) (collect($labels)
-                ->pluck('key')
-                ->search(Carbon::now()->format('Y-m')) ?? 0),
-        };
-
-        return [
-            'labels' => $displayLabels->values()->toArray(),
-            'amounts' => $data->values()->toArray(),
-            'maxAmount' => $max,
-            'todayIndex' => $todayIndex,
-        ];
-    }
-
-    // ──────────────────────────────────────────────────────────
-    // Helpers: label builders
-    // ──────────────────────────────────────────────────────────
-
-    private function buildWeeklyLabels(): array
-    {
-        $start = Carbon::now()->startOfMonth();
-        $end = Carbon::now()->endOfMonth();
-        $weeks = [];
-        $seen = [];
-        $num = 1;
-
-        for ($d = $start->copy(); $d->lte($end); $d->addDay()) {
-            $key = $d->format('W') . '-' . $d->format('Y');
-            if (!in_array($key, $seen, true)) {
-                $seen[] = $key;
-                $weeks[] = ['key' => $key, 'display' => 'Mg ' . $num++];
-            }
-        }
-
-        return $weeks;
-    }
-
-    private function buildMonthlyLabels(): array
-    {
-        $start = $this->firstTransactionMonth();
-        $end = Carbon::now()->startOfMonth();
-        $months = [];
-
-        for ($d = $start->copy(); $d->lte($end); $d->addMonth()) {
-            $months[] = [
-                'key' => $d->format('Y-m'),
-                'display' => $d->translatedFormat('M y'),
-            ];
-        }
-
-        return $months;
-    }
-
-    /**
-     * Bulan pertama ada transaksi di seluruh sistem (semua user).
-     */
-    private function firstTransactionMonth(): Carbon
-    {
-        $firstIncome = Income::orderBy('date')->value('date');
-        $firstExpense = Expense::orderBy('date')->value('date');
-
-        $dates = array_filter([$firstIncome, $firstExpense]);
-
-        if (empty($dates)) {
-            return Carbon::now()->startOfMonth();
-        }
-
-        $earliest = min(array_map(fn($d) => Carbon::parse($d), $dates));
-
-        return $earliest->startOfMonth();
     }
 };
 ?>
@@ -292,79 +159,6 @@ new class extends Component {
                 </div>
             </div>
         </section>
-
-        {{-- ===== Financial Chart (Sistem) ===== --}}
-        {{-- <section class="space-y-3 page-fade" style="--delay: 0.1s">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="text-lg font-bold text-base-content leading-tight">Pengeluaran Sistem</h3>
-                    <p class="text-xs text-base-content/50">
-                        {{ match ($period) {
-                            'daily' => 'Minggu ini · ' . Carbon::now()->translatedFormat('d M Y'),
-                            'weekly' => 'Per minggu · ' . Carbon::now()->translatedFormat('M Y'),
-                            'monthly' => 'Per bulan · semua waktu',
-                        } }}
-                    </p>
-                </div>
-
-                <div class="flex items-center gap-1 bg-base-200 rounded-full p-0.5">
-                    <button wire:click="$set('period', 'daily')"
-                        class="text-[11px] font-semibold px-3 py-1 rounded-full transition-all duration-200 {{ $period === 'daily' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
-                        Harian
-                    </button>
-                    <button wire:click="$set('period', 'weekly')"
-                        class="text-[11px] font-semibold px-3 py-1 rounded-full transition-all duration-200 {{ $period === 'weekly' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
-                        Mingguan
-                    </button>
-                    <button wire:click="$set('period', 'monthly')"
-                        class="text-[11px] font-semibold px-3 py-1 rounded-full transition-all duration-200 {{ $period === 'monthly' ? 'bg-white text-primary shadow-sm' : 'text-base-content/60 hover:text-base-content' }}">
-                        Bulanan
-                    </button>
-                </div>
-            </div>
-
-            <div class="card bg-white shadow p-5 border border-transparent">
-                @php
-                    $chartAmounts = $chartData['amounts'];
-                    $chartLabels = $chartData['labels'];
-                    $chartMax = $chartData['maxAmount'];
-                    $todayIndex = $chartData['todayIndex'];
-                @endphp
-
-                <div class="flex items-end justify-between h-40 gap-1.5 mb-3 relative">
-                    <div wire:loading.flex wire:target="$set"
-                        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-10 items-center justify-center rounded-lg"
-                        style="display:none">
-                        <span class="loading loading-spinner text-primary"></span>
-                    </div>
-
-                    @foreach ($chartAmounts as $i => $amount)
-                        @php
-                            $pct = $chartMax > 0 ? round(($amount / $chartMax) * 100) : 0;
-                            $isToday = $i === $todayIndex;
-                        @endphp
-                        <div tabindex="0" class="group relative flex flex-col items-center w-full h-full justify-end cursor-pointer focus:outline-none">
-                            <span
-                                class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 text-[10px] bg-base-content text-base-100 rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none z-20">
-                                Rp {{ number_format($amount, 0, ',', '.') }}
-                            </span>
-                            <div class="w-full rounded-t-lg transition-all duration-500 {{ $isToday ? 'bg-rose-500' : 'bg-rose-200' }}"
-                                style="height:{{ max($pct, $amount > 0 ? 4 : ($isToday ? 3 : 0)) }}%">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="flex justify-between text-[10px] tracking-widest uppercase">
-                    @foreach ($chartLabels as $i => $label)
-                        <span
-                            class="flex-1 text-center {{ $i === $todayIndex ? 'text-primary font-extrabold' : 'text-base-content/40 font-semibold' }}">
-                            {{ $label }}
-                        </span>
-                    @endforeach
-                </div>
-            </div>
-        </section> --}}
 
         {{-- ===== Pengguna Terbaru ===== --}}
         <section class="space-y-3 page-fade" style="--delay: 0.15s">
